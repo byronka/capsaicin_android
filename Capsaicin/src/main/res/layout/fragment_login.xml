@@ -1,0 +1,13 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="fill_parent"
+    android:layout_width="fill_parent"
+    android:id="@+id/login"
+    >
+
+    <ImageView
+        android:id="@+id/imageview_login"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:src="@drawable/login"
+        android:scaleType="centerCrop" />
+</FrameLayout>
