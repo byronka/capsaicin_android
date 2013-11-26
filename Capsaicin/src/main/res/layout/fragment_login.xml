@@ -1,4 +1,4 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:id="@+id/login"
@@ -8,6 +8,24 @@
         android:id="@+id/imageview_login"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:src="@drawable/login"
+        android:src="@drawable/background"
         android:scaleType="centerCrop" />
-</FrameLayout>
+
+    <ImageView
+        android:id="@+id/imageview_login"
+        android:layout_width="100dp"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_height="100dp"
+        android:src="@drawable/logo"
+        android:scaleType="centerCrop" />
+    
+    <EditText
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/imageview_login"
+        />
+
+    
+</RelativeLayout>
