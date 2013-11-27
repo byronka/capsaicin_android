@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.app.ActionBar;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -18,10 +19,12 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new LoginFragment())
                     .commit();
         }
 
+        ActionBar actionBar = getActionBar();
+        actionBar.setHomeButtonEnabled(true);
     }
 
 
@@ -46,11 +49,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
-     * A placeholder fragment containing a simple view.
+     * A placeholder fragment containing the login view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class LoginFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public LoginFragment() {
         }
 
         @Override
@@ -61,6 +64,21 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    /**
+     * A placeholder fragment containing the video view.
+     */
+    public static class VideoFragment extends Fragment {
+
+        public VideoFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_videos, container, false);
+            return rootView;
+        }
+    }
 
 
 }
