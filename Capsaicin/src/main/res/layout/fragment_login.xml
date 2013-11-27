@@ -5,14 +5,14 @@
     >
 
     <ImageView
-        android:id="@+id/imageview_login"
+        android:id="@+id/background"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:src="@drawable/background"
         android:scaleType="centerCrop" />
 
     <ImageView
-        android:id="@+id/imageview_login"
+        android:id="@+id/logo"
         android:layout_width="100dp"
         android:layout_centerInParent="true"
         android:layout_alignParentTop="true"
@@ -21,11 +21,33 @@
         android:scaleType="centerCrop" />
     
     <EditText
-        android:layout_width="250dp"
-        android:layout_height="80dp"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/imageview_login"
+        android:id="@+id/username"
+        android:layout_below="@id/logo"
+        android:layout_marginTop="60dp"
+        style="@style/standardinput"
+        android:hint="@string/username"
         />
 
-    
+    <EditText
+        android:id="@+id/password"
+        android:layout_below="@id/username"
+        android:layout_marginTop="30dp"
+        style="@style/standardinput"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        />
+
+    <ImageButton
+        android:contentDescription="@string/go_button_content_description"
+        android:id="@+id/login_go_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/go_button"
+        android:layout_below="@id/password"
+        android:layout_marginTop="40dp"
+        android:scaleType="centerCrop"
+        android:background="@null" />
+
+
 </RelativeLayout>
