@@ -9,6 +9,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.app.ActionBar;
+import android.widget.VideoView;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -19,12 +21,18 @@ public class MainActivity extends ActionBarActivity {
 
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new LoginFragment())
+                    .add(R.id.container, new VideoFragment())
                     .commit();
         }
 
-        ActionBar actionBar = getActionBar();
-        actionBar.setHomeButtonEnabled(true);
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+        final VideoView videoView =
+                (VideoView) findViewById(R.id.videoView1);
+//        videoView.setVideoPath(
+//                "http://www.ebookfrenzy.com/android_book/movie.mp4");
+
+        videoView.start();
     }
 
 
@@ -77,6 +85,7 @@ public class MainActivity extends ActionBarActivity {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_videos, container, false);
             return rootView;
+
         }
     }
 

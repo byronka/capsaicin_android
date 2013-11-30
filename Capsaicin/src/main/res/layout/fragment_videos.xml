@@ -1,13 +1,16 @@
-    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:id="@+id/videos"
+        android:background="@android:color/background_light"
+        tools:context=".VideoPlayerActivity"
         >
 
-        <ImageView
-            android:id="@+id/imageview_videos"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:src="@drawable/videos"
-            android:scaleType="centerCrop" />
-    </FrameLayout>
+        <VideoView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/videoView1"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true" />
+    </RelativeLayout>
