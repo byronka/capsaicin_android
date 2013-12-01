@@ -1,6 +1,7 @@
 package com.renomad.capsaicin;
 
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -8,7 +9,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.app.ActionBar;
 import android.widget.VideoView;
 
 
@@ -24,15 +24,6 @@ public class MainActivity extends ActionBarActivity {
                     .add(R.id.container, new VideoFragment())
                     .commit();
         }
-
-//        ActionBar actionBar = getActionBar();
-//        actionBar.setHomeButtonEnabled(true);
-        final VideoView videoView =
-                (VideoView) findViewById(R.id.videoView1);
-//        videoView.setVideoPath(
-//                "http://www.ebookfrenzy.com/android_book/movie.mp4");
-
-        videoView.start();
     }
 
 
@@ -84,9 +75,19 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_videos, container, false);
-            return rootView;
 
+            final VideoView videoView;
+            View tempVideoView = rootView.findViewById(R.id.videoView1);
+            if (tempVideoView != null) {
+                videoView = (VideoView) tempVideoView;
+                videoView.setVideoPath("http://192.168.1.7:8080/byron_talking.mp4");
+                videoView.start();
+            }
+
+            return rootView;
         }
+
+
     }
 
 
