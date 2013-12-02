@@ -1,4 +1,4 @@
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
@@ -7,9 +7,32 @@
         >
 
         <VideoView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
             android:id="@+id/videoView1"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true" />
-    </RelativeLayout>
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="150dp"
+            android:id="@+id/video_caption">
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/user_avatar_imageview"/>
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:id="@+id/title_textview"
+                />
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="200dp"
+                android:id="@+id/description_textview"
+                />
+            <TextView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:id="@+id/votes_textview"/>
+        </RelativeLayout>
+    </LinearLayout>
