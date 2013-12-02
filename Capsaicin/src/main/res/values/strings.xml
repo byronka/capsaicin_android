@@ -2,6 +2,7 @@
 <resources>
 
     <string name="app_name">Capsaicin</string>
+    <string name="video_activity_label">Videos</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="go_button_content_description">Submit button</string>
