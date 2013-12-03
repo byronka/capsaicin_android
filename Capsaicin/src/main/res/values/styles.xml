@@ -15,4 +15,14 @@
         <item name="android:background">@drawable/rounded_edittext</item>
     </style>
 
+    <style name="votes_text_appearance">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@drawable/rounded_votes_box</item>
+        <item name="android:layout_height">60dp</item>
+        <item name="android:layout_width">60dp</item>
+    </style>
+
+
 </resources>

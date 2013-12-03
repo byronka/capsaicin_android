@@ -31,8 +31,8 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".VideoActivity"
-            android:label="@string/video_activity_label" >
+            android:name=".GeneralActivity"
+            android:label="General" >
         </activity>
     </application>
 

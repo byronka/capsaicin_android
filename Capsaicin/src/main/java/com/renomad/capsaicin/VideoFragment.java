@@ -6,12 +6,12 @@ import android.view.View;
 import android.widget.VideoView;
 
 
-public class VideoActivity extends Activity {
+public class VideoFragment extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_videos);
+        setContentView(R.layout.fragment_videos);
         final VideoView videoView;
         View tempVideoView = findViewById(R.id.videoView1);
         if (tempVideoView != null) {

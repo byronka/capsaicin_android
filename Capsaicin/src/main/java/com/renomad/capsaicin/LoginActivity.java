@@ -18,8 +18,8 @@ public class LoginActivity extends Activity {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
-                final ComponentName videoActivity = new ComponentName("com.renomad.capsaicin", "com.renomad.capsaicin.VideoActivity");
-                intent.setComponent(videoActivity);
+                final ComponentName generalActivity = new ComponentName("com.renomad.capsaicin", "com.renomad.capsaicin.GeneralActivity");
+                intent.setComponent(generalActivity);
                 startActivity(intent);
             }
         });

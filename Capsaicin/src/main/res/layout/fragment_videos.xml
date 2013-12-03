@@ -6,11 +6,11 @@
         android:orientation="vertical"
         tools:context=".VideoPlayerActivity"
         >
-
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="1"
+            android:background="#eeeeee"
             >
             <TableRow>
                 <TextView
@@ -61,8 +61,10 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:textStyle="bold"
                             android:id="@+id/video_title_textview"
                             android:text="@string/video_title_text"
+                            android:textSize="17dp"
                             />
                         <TextView
                             android:layout_width="wrap_content"
@@ -72,10 +74,7 @@
                             />
                     </LinearLayout>
                     <TextView
-                        android:layout_height="60dp"
-                        android:layout_width="60dp"
-                        android:background="@android:color/darker_gray"
-                        android:id="@+id/votes_textview"
+                        style="@style/votes_text_appearance"
                         android:text="@string/number_of_votes"
                         />
                 </TableRow>
