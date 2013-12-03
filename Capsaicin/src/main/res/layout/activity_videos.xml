@@ -3,36 +3,81 @@
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
         android:id="@+id/videos"
+        android:orientation="vertical"
         tools:context=".VideoPlayerActivity"
         >
 
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:stretchColumns="1"
+            >
+            <TableRow>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_textview"
+                    android:text="@string/fake_date_text"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingLeft="4dp"
+                    />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pageviews_textview"
+                    android:text="@string/fake_number_of_views_text"
+                    android:gravity="right"
+                    android:paddingTop="4dp"
+                    android:paddingBottom="4dp"
+                    android:paddingRight="4dp"
+                    />
+            </TableRow>
+        </TableLayout>
         <VideoView
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:id="@+id/videoView1"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true" />
-        <RelativeLayout
-            android:layout_width="fill_parent"
-            android:layout_height="150dp"
-            android:id="@+id/video_caption">
-            <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/user_avatar_imageview"/>
-            <TextView
+            android:layout_alignParentLeft="true"
+            />
+        <TableLayout
                 android:layout_width="fill_parent"
-                android:layout_height="200dp"
-                android:id="@+id/title_textview"
-                />
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="200dp"
-                android:id="@+id/description_textview"
-                />
-            <TextView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:id="@+id/votes_textview"/>
-        </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:id="@+id/title_description_bar"
+                android:shrinkColumns="1"
+                >
+                <TableRow>
+                    <ImageView
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:id="@+id/user_avatar_imageview"
+                        android:src="@drawable/user_avatar"
+                        />
+                    <LinearLayout
+                        android:paddingRight="10dp"
+                        android:paddingLeft="10dp"
+                        android:orientation="vertical" >
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/video_title_textview"
+                            android:text="@string/video_title_text"
+                            />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/description_textview"
+                            android:text="@string/video_desc_text"
+                            />
+                    </LinearLayout>
+                    <TextView
+                        android:layout_height="60dp"
+                        android:layout_width="60dp"
+                        android:background="@android:color/darker_gray"
+                        android:id="@+id/votes_textview"
+                        android:text="@string/number_of_votes"
+                        />
+                </TableRow>
+            </TableLayout>
     </LinearLayout>

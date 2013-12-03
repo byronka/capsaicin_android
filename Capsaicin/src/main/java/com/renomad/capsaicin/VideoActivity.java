@@ -16,7 +16,7 @@ public class VideoActivity extends Activity {
         View tempVideoView = findViewById(R.id.videoView1);
         if (tempVideoView != null) {
             videoView = (VideoView) tempVideoView;
-            videoView.setVideoPath("http://192.168.1.103:8080/byron_talking.mp4");
+            videoView.setVideoPath("http://192.168.1.6:8080/byron_talking.mp4");
             videoView.start();
         }
     }
