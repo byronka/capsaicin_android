@@ -12,12 +12,5 @@ public class GeneralActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_general);
-        final VideoView videoView;
-        View tempVideoView = findViewById(R.id.videoView1);
-        if (tempVideoView != null) {
-            videoView = (VideoView) tempVideoView;
-            videoView.setVideoPath("http://192.168.1.6:8080/byron_talking.mp4");
-            videoView.start();
-        }
     }
 }

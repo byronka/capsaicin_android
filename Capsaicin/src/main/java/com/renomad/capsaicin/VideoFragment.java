@@ -1,17 +1,21 @@
 package com.renomad.capsaicin;
 
-import android.app.Activity;
+import android.app.Fragment;
+import android.app.ListFragment;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.VideoView;
 
+import java.util.zip.Inflater;
 
-public class VideoFragment extends Activity {
+
+public class VideoFragment extends Fragment {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_videos);
+    protected void onCreateView(LayoutInflater li, ViewGroup vg, Bundle bundle) {
+        return Inflater.inflate(R.layout.fragment_videos, false);
         final VideoView videoView;
         View tempVideoView = findViewById(R.id.videoView1);
         if (tempVideoView != null) {
