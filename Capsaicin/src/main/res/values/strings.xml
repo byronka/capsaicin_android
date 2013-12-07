@@ -14,5 +14,7 @@ Kelly. Check her Talentsack page out also.</string>
     <string name="number_of_votes">3,827 VOTES</string>
     <string name="fake_date_text">1/14/2014</string>
     <string name="fake_number_of_views_text">Views 23,739</string>
+    <string name="dummy_section_text">this is some text</string>
+    <string name="dummy_profile_user_name">dummy user</string>
 
 </resources>

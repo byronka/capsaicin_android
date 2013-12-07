@@ -2,10 +2,9 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_height="fill_parent"
         android:layout_width="fill_parent"
-        android:id="@+id/videos"
-        android:orientation="vertical"
-        tools:context=".VideoPlayerActivity"
-        >
+        android:id="@+id/video_item_view"
+        android:orientation="vertical" >
+
         <TableLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
