@@ -33,13 +33,17 @@
                     />
             </TableRow>
         </TableLayout>
-        <VideoView
+        <!--<VideoView-->
+            <!--android:layout_width="fill_parent"-->
+            <!--android:layout_height="200dp"-->
+            <!--android:id="@+id/videoView1"-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--/>-->
+        <ImageView
             android:layout_width="fill_parent"
             android:layout_height="200dp"
-            android:id="@+id/videoView1"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            />
+            android:src="@drawable/fake_video"/>
         <TableLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
