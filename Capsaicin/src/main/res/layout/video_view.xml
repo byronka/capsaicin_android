@@ -33,14 +33,16 @@
                     />
             </TableRow>
         </TableLayout>
-        <!--<VideoView-->
-            <!--android:layout_width="fill_parent"-->
-            <!--android:layout_height="200dp"-->
-            <!--android:id="@+id/videoView1"-->
-            <!--android:layout_alignParentBottom="true"-->
-            <!--android:layout_alignParentLeft="true"-->
-            <!--/>-->
+        <VideoView
+            android:visibility="gone"
+            android:layout_width="fill_parent"
+            android:layout_height="200dp"
+            android:id="@+id/videoView"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            />
         <ImageView
+            android:id="@+id/my_fake_video"
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:src="@drawable/fake_video"/>
@@ -93,10 +95,14 @@
                     style="@style/comment_button_style"
                     />
                 <Button
+                    android:text="@string/vote"
+                    android:gravity="center"
                     style="@style/typical_button_style"
                     android:layout_toLeftOf="@id/video_comment_button"
                     />
                 <Button
+                    android:text="@string/share"
+                    android:gravity="center"
                     style="@style/typical_button_style"
                     android:layout_toRightOf="@id/video_comment_button"
                     />

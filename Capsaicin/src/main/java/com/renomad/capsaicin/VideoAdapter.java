@@ -1,13 +1,18 @@
 package com.renomad.capsaicin;
 
 import android.database.DataSetObserver;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.VideoView;
+
+import java.io.IOException;
 
 /**
  * Created by Byron on 12/7/13.
@@ -72,7 +77,6 @@ public class VideoAdapter implements ListAdapter {
             return myVideoView;
         }
         return view;
-        //nothing happens here for now.  TODO - BK - actually wire up data here.
     }
 
     private void wireUpTheVideoView(View myVideoView) {
@@ -83,6 +87,42 @@ public class VideoAdapter implements ListAdapter {
                 Log.i("VideoAdapter.java", "you just clicked me!");
             }
         });
+
+        final MediaPlayer mediaPlayer = new MediaPlayer();
+        try {
+            mediaPlayer.setDataSource("http://192.168.1.6:8080/byron_talking.mp4");
+        } catch (IOException e) {
+           Log.e("wireUpTheVideoView", e.toString());
+        }
+
+        final VideoView videoView = (VideoView)myVideoView.findViewById(R.id.videoView);
+        if (videoView != null) {
+            videoView.setVideoPath(;
+            videoView.setClickable(true);
+            videoView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    VideoView myVideoView = (VideoView) view;
+                    if (myVideoView.isPlaying()) {
+                        videoView.pause();
+                    } else {
+                        videoView.start();
+                    }
+                }
+            });
+
+            final ImageView pictureView = (ImageView)myVideoView.findViewById(R.id.my_fake_video);
+            if (pictureView != null) {
+                pictureView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Log.i("VideoFragment", "You just clicked the picture!");
+                        pictureView.setVisibility(View.GONE);
+                        videoView.setVisibility(View.VISIBLE);
+                    }
+                });
+            }
+        }
     }
 
     @Override
