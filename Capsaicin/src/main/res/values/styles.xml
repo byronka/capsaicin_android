@@ -15,14 +15,32 @@
         <item name="android:background">@drawable/rounded_edittext</item>
     </style>
 
-    <style name="votes_text_appearance">
+    <style name="votes_text_style">
+        <item name="android:gravity">center</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textStyle">bold</item>
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:background">@drawable/rounded_votes_box</item>
-        <item name="android:layout_height">60dp</item>
-        <item name="android:layout_width">60dp</item>
+        <item name="android:layout_height">@dimen/votes_icon_height</item>
+        <item name="android:layout_width">@dimen/votes_icon_width</item>
     </style>
+
+    <style name="typical_button_style">
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:background">@drawable/rounded_buttons</item>
+    </style>
+
+    <style name="comment_button_style">
+        <item name="android:layout_height">@dimen/button_height</item>
+        <item name="android:layout_width">@dimen/button_width</item>
+        <item name="android:background">@drawable/rounded_comment_button</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+
+    </style>
+
+
 
 
 </resources>

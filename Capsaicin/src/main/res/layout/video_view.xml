@@ -77,7 +77,7 @@
                             />
                     </LinearLayout>
                     <TextView
-                        style="@style/votes_text_appearance"
+                        style="@style/votes_text_style"
                         android:text="@string/number_of_votes"
                         />
                 </TableRow>
@@ -88,25 +88,17 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content">
                 <Button
-                    android:id="@+id/lines_button"
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
+                    android:id="@+id/video_comment_button"
                     android:layout_centerInParent="true"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp"
-                    android:background="#fec827"
+                    style="@style/comment_button_style"
                     />
                 <Button
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_toLeftOf="@id/lines_button"
-                    android:background="#fec827"
+                    style="@style/typical_button_style"
+                    android:layout_toLeftOf="@id/video_comment_button"
                     />
                 <Button
-                    android:layout_width="50dp"
-                    android:layout_height="30dp"
-                    android:layout_toRightOf="@id/lines_button"
-                    android:background="#fec827"
+                    style="@style/typical_button_style"
+                    android:layout_toRightOf="@id/video_comment_button"
                     />
             </RelativeLayout>
     </LinearLayout>

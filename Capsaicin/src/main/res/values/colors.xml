@@ -1,0 +1,8 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <color name="yellow_1">#fec827</color>
+    <color name="grey_1">#555555</color>
+    <color name="grey_2">#eeeeee</color>
+
+</resources>

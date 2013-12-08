@@ -1,0 +1,9 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <dimen name="button_height">30dp</dimen>
+    <dimen name="button_width">50dp</dimen>
+    <dimen name="votes_icon_height">40dp</dimen>
+    <dimen name="votes_icon_width">60dp</dimen>
+
+</resources>

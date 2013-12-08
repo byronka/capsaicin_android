@@ -99,7 +99,7 @@
                             />
                     </LinearLayout>
                     <TextView
-                        style="@style/votes_text_appearance"
+                        style="@style/votes_text_style"
                         android:text="@string/number_of_votes"
                         />
                 </TableRow>

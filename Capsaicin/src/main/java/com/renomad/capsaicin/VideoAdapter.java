@@ -6,7 +6,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Adapter;
 import android.widget.Button;
 import android.widget.ListAdapter;
 
@@ -77,7 +76,7 @@ public class VideoAdapter implements ListAdapter {
     }
 
     private void wireUpTheVideoView(View myVideoView) {
-        Button lines_button = (Button)myVideoView.findViewById(R.id.lines_button);
+        Button lines_button = (Button)myVideoView.findViewById(R.id.video_comment_button);
         lines_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
