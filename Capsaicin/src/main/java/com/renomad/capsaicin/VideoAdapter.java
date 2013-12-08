@@ -2,10 +2,12 @@ package com.renomad.capsaicin;
 
 import android.database.DataSetObserver;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
+import android.widget.Button;
 import android.widget.ListAdapter;
 
 /**
@@ -67,10 +69,21 @@ public class VideoAdapter implements ListAdapter {
         if (parent != null) {
             LayoutInflater li = LayoutInflater.from(parent.getContext());
             final View myVideoView = li.inflate(R.layout.video_view, parent, false);
+            wireUpTheVideoView(myVideoView);
             return myVideoView;
         }
         return view;
         //nothing happens here for now.  TODO - BK - actually wire up data here.
+    }
+
+    private void wireUpTheVideoView(View myVideoView) {
+        Button lines_button = (Button)myVideoView.findViewById(R.id.lines_button);
+        lines_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.i("VideoAdapter.java", "you just clicked me!");
+            }
+        });
     }
 
     @Override

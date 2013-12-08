@@ -82,4 +82,31 @@
                         />
                 </TableRow>
             </TableLayout>
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content">
+                <Button
+                    android:id="@+id/lines_button"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerInParent="true"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="#fec827"
+                    />
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_toLeftOf="@id/lines_button"
+                    android:background="#fec827"
+                    />
+                <Button
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_toRightOf="@id/lines_button"
+                    android:background="#fec827"
+                    />
+            </RelativeLayout>
     </LinearLayout>
