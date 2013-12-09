@@ -1,18 +1,18 @@
 package com.renomad.capsaicin;
 
 import android.database.DataSetObserver;
-import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.text.Editable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
+import android.widget.MediaController;
 import android.widget.VideoView;
-
-import java.io.IOException;
 
 /**
  * Created by Byron on 12/7/13.
@@ -72,15 +72,16 @@ public class VideoAdapter implements ListAdapter {
     public View getView(int i, View view, ViewGroup parent) {
         if (parent != null) {
             LayoutInflater li = LayoutInflater.from(parent.getContext());
-            final View myVideoView = li.inflate(R.layout.video_view, parent, false);
-            wireUpTheVideoView(myVideoView);
-            return myVideoView;
+            final View my_video_item_view = li.inflate(R.layout.video_item_view, parent, false);
+            wireUpTheVideoView(my_video_item_view);
+            return my_video_item_view;
         }
         return view;
     }
 
-    private void wireUpTheVideoView(View myVideoView) {
-        Button lines_button = (Button)myVideoView.findViewById(R.id.video_comment_button);
+    private void wireUpTheVideoView(View myVideoItemView) {
+
+        Button lines_button = (Button)myVideoItemView.findViewById(R.id.video_comment_button);
         lines_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,37 +89,34 @@ public class VideoAdapter implements ListAdapter {
             }
         });
 
-        final MediaPlayer mediaPlayer = new MediaPlayer();
-        try {
-            mediaPlayer.setDataSource("http://192.168.1.6:8080/byron_talking.mp4");
-        } catch (IOException e) {
-           Log.e("wireUpTheVideoView", e.toString());
-        }
-
-        final VideoView videoView = (VideoView)myVideoView.findViewById(R.id.videoView);
+        final VideoView videoView = (VideoView)myVideoItemView.findViewById(R.id.videoView);
         if (videoView != null) {
-            videoView.setVideoPath(;
-            videoView.setClickable(true);
-            videoView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    VideoView myVideoView = (VideoView) view;
-                    if (myVideoView.isPlaying()) {
-                        videoView.pause();
-                    } else {
-                        videoView.start();
-                    }
-                }
-            });
 
-            final ImageView pictureView = (ImageView)myVideoView.findViewById(R.id.my_fake_video);
+            final MediaController myMediaController = new MediaController(videoView.getContext());
+            final ImageView pictureView = (ImageView)myVideoItemView.findViewById(R.id.my_fake_video);
             if (pictureView != null) {
+
+                videoView.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if (!view.isFocused()) {
+
+                            videoView.setVisibility(View.GONE);
+                            pictureView.setVisibility(View.VISIBLE);
+                        }
+                    }
+                });
+
                 pictureView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Log.i("VideoFragment", "You just clicked the picture!");
                         pictureView.setVisibility(View.GONE);
                         videoView.setVisibility(View.VISIBLE);
+                        String url = "http://192.168.1.6:8080/byron_talking.mp4"; // your URL here
+                        videoView.setVideoPath(url);
+                        videoView.setMediaController(myMediaController);
+                        videoView.start();
                     }
                 });
             }

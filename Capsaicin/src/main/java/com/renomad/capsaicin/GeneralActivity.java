@@ -35,10 +35,6 @@ public class GeneralActivity extends ActionBarActivity {
         viewPager.setAdapter(mAppSectionsPagerAdapter);
 
         for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-                // Create a tab with text corresponding to the page title defined by the adapter.
-                // Also specify this Activity object, which implements the TabListener interface,
-                // as the listener for when this tab is selected.
-
                 actionBar.addTab(actionBar.newTab()
                     .setText(mAppSectionsPagerAdapter.getPageTitle(i))
                     .setTabListener(new GeneralActivityTabListener(viewPager)));
