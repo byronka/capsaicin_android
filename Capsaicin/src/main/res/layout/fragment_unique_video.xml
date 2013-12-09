@@ -1,7 +1,7 @@
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_height="fill_parent"
-    android:layout_width="fill_parent" >
+    android:layout_width="fill_parent">
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="fill_parent"
@@ -12,9 +12,10 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:stretchColumns="1"
-            android:background="#eeeeee"
-            >
+            android:background="#eeeeee">
+
             <TableRow>
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -22,8 +23,8 @@
                     android:text="@string/fake_date_text"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:paddingLeft="4dp"
-                    />
+                    android:paddingLeft="4dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -32,60 +33,70 @@
                     android:gravity="right"
                     android:paddingTop="4dp"
                     android:paddingBottom="4dp"
-                    android:paddingRight="4dp"
-                    />
+                    android:paddingRight="4dp" />
             </TableRow>
         </TableLayout>
+
         <ImageView
             android:layout_width="fill_parent"
             android:layout_height="200dp"
-            android:src="@drawable/fake_video"/>
+            android:src="@drawable/fake_video" />
+
         <VideoView
             android:visibility="gone"
             android:layout_width="fill_parent"
             android:layout_height="200dp"
             android:id="@+id/videoView"
             android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            />
-        <TableLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/title_description_bar"
-                android:shrinkColumns="1"
-                >
-                <TableRow>
-                    <ImageView
-                        android:layout_height="60dp"
-                        android:layout_width="60dp"
-                        android:id="@+id/user_avatar_imageview"
-                        android:src="@drawable/user_avatar"
-                        />
-                    <LinearLayout
-                        android:paddingRight="10dp"
-                        android:paddingLeft="10dp"
-                        android:orientation="vertical" >
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textStyle="bold"
-                            android:id="@+id/video_title_textview"
-                            android:text="@string/video_title_text"
-                            android:textSize="17dp"
-                            />
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/description_textview"
-                            android:text="@string/video_desc_text"
-                            />
-                    </LinearLayout>
-                    <TextView
-                        style="@style/votes_text_style"
-                        android:text="@string/number_of_votes"
-                        />
-                </TableRow>
-            </TableLayout>
+            android:layout_alignParentLeft="true" />
 
-        </LinearLayout>
+        <TableLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/title_description_bar"
+            android:shrinkColumns="1">
+
+            <TableRow>
+
+                <ImageView
+                    android:layout_height="60dp"
+                    android:layout_width="60dp"
+                    android:id="@+id/user_avatar_imageview"
+                    android:src="@drawable/user_avatar" />
+
+                <LinearLayout
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        android:id="@+id/video_title_textview"
+                        android:text="@string/video_title_text"
+                        android:textSize="17dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/description_textview"
+                        android:text="@string/video_desc_text" />
+                </LinearLayout>
+
+                <TextView
+                    style="@style/votes_text_style"
+                    android:text="@string/number_of_votes" />
+            </TableRow>
+        </TableLayout>
+        <EditText
+            android:id="@+id/add_a_comment_edittext"
+            android:hint="@string/add_a_comment"
+            android:layout_height="100dp"
+            android:layout_width="fill_parent"
+            android:inputType="textMultiLine"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            />
+    </LinearLayout>
 </ScrollView>
