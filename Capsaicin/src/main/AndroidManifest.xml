@@ -33,6 +33,10 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".UniqueVideoActivity"
+            android:label="Single Video" >
+        </activity>
+        <activity
             android:name=".GeneralActivity"
             android:label="General" >
         </activity>

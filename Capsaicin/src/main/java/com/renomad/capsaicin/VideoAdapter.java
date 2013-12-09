@@ -1,5 +1,8 @@
 package com.renomad.capsaicin;
 
+import android.content.ComponentName;
+import android.content.Context;
+import android.content.Intent;
 import android.database.DataSetObserver;
 import android.os.Bundle;
 import android.text.Editable;
@@ -81,11 +84,15 @@ public class VideoAdapter implements ListAdapter {
 
     private void wireUpTheVideoView(View myVideoItemView) {
 
+        final Context myContext = myVideoItemView.getContext();
         Button lines_button = (Button)myVideoItemView.findViewById(R.id.video_comment_button);
         lines_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.i("VideoAdapter.java", "you just clicked me!");
+                final Intent intent = new Intent();
+                final ComponentName generalActivity = new ComponentName("com.renomad.capsaicin", "com.renomad.capsaicin.UniqueVideoActivity");
+                intent.setComponent(generalActivity);
+                myContext.startActivity(intent);
             }
         });
 
