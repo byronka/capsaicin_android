@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:0.6.+'
+        classpath 'com.android.tools.build:gradle:0.7.+'
     }
 }
 apply plugin: 'android'
@@ -17,8 +17,13 @@ android {
     buildToolsVersion "19.0.0"
 
     defaultConfig {
-        minSdkVersion 7
+		versionCode 1
+		versionName "0.1"
+        minSdkVersion 9
         targetSdkVersion 19
+		testPackageName "com.renomad.capsaicin.Test"
+		testInstrumentationRunner "android.test.InstrumentationTestRunner"
+		testFunctionalTest true
     }
 
     compileOptions {
@@ -29,4 +34,5 @@ android {
 
 dependencies {
 	compile 'com.android.support:appcompat-v7:+'
+	instrumentTestCompile 'com.google.guava:guava:11.0.2'
 }

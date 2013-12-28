@@ -90,7 +90,8 @@ public class VideoAdapter implements ListAdapter {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
-                final ComponentName generalActivity = new ComponentName("com.renomad.capsaicin", "com.renomad.capsaicin.UniqueVideoActivity");
+                final ComponentName generalActivity = new ComponentName("com.renomad.capsaicin",
+                        "com.renomad.capsaicin.UniqueVideoActivity");
                 intent.setComponent(generalActivity);
                 myContext.startActivity(intent);
             }
