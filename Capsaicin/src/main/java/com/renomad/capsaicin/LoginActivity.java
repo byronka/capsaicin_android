@@ -22,7 +22,7 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				if (loginFieldsFilled(
+				if (!loginFieldsFilled(
 							getUsernameText(), 
 							getPasswordText())) {
 					showEmptyFieldValidationToast();
