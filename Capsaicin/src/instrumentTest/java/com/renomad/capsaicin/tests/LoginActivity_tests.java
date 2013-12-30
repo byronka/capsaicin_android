@@ -1,13 +1,10 @@
 package com.renomad.capsaicin.tests;
 
 import android.test.ActivityInstrumentationTestCase2;
+import android.widget.EditText;
+
 import com.renomad.capsaicin.LoginActivity;
 import com.renomad.capsaicin.R;
-import android.widget.EditText;
-import android.view.View;
-import android.app.Instrumentation;
-import android.app.Instrumentation.ActivityResult;
-import android.app.Instrumentation.ActivityMonitor;
 
 public class LoginActivity_tests 
 	extends ActivityInstrumentationTestCase2<LoginActivity> {
@@ -15,7 +12,7 @@ public class LoginActivity_tests
 	private LoginActivity loginActivity;
 
 	public LoginActivity_tests() {
-		super("com.renomad.capsaicin", LoginActivity.class);
+		super(LoginActivity.class);
 	}
 
 	@Override
@@ -26,7 +23,7 @@ public class LoginActivity_tests
 
 	public void testPasswordField() {
 		final EditText password = 
-			(EditText) loginActivity.findViewById(R.id.password);		
+			(EditText) loginActivity.findViewById(R.id.password);
 		loginActivity.runOnUiThread(new Runnable() {
 			public void run() {
 				password.setText("this is a username");
@@ -72,81 +69,28 @@ public class LoginActivity_tests
 		assertFalse(isFilled);
 	}
 
-	public void testGoButton_happycase() {
-		final EditText username =
-			(EditText) loginActivity.findViewById(R.id.username);
-		final EditText password =
-			(EditText) loginActivity.findViewById(R.id.password);
-		final View goButton =
-			loginActivity.findViewById(R.id.login_go_button);
-		final Instrumentation.ActivityResult result = 
-			new Instrumentation.ActivityResult(13, null);
-		final ActivityMonitor myMonitor =
-			new Instrumentation.ActivityMonitor(
-					"com.renomad.capsaicin.GeneralActivity", 
-					result,
-					true);
-		loginActivity.runOnUiThread(new Runnable() {
-			public void run() {
-				username.setText("this is a username");
-				password.setText("this is a password");
-				goButton.performClick();
-				int numOfHitsOnGeneralActivity = myMonitor.getHits();
-				assertTrue(numOfHitsOnGeneralActivity > 0);
-			}
-		});
+    public void testLoginFieldsValid_happycase() {
+        String username = "testuser";
+        String password = "testpass";
+        boolean isValid = loginActivity
+                .loginFieldsValid(username, password);
+        assertTrue(isValid);
+    }
 
-	}
+    public void testLoginFieldsValid_negativeUserCase() {
+        String username = "not a valid entry";
+        String password = "testpass";
+        boolean isValid = loginActivity
+                .loginFieldsValid(username, password);
+        assertTrue(isValid);
+    }
 
-	public void testGoButton_negativeCase_password() {
-		final EditText username =
-			(EditText) loginActivity.findViewById(R.id.username);
-		final EditText password =
-			(EditText) loginActivity.findViewById(R.id.password);
-		final View goButton =
-			loginActivity.findViewById(R.id.login_go_button);
-		final Instrumentation.ActivityResult result = 
-			new Instrumentation.ActivityResult(13, null);
-		final ActivityMonitor myMonitor =
-			new Instrumentation.ActivityMonitor(
-					"com.renomad.capsaicin.GeneralActivity", 
-					result,
-					true);
-		loginActivity.runOnUiThread(new Runnable() {
-			public void run() {
-				username.setText("this is a username");
-				password.setText("");
-				goButton.performClick();
-				int numOfHitsOnGeneralActivity = myMonitor.getHits();
-				assertEquals(0, numOfHitsOnGeneralActivity);
-			}
-		});
-	}
-
-	public void testGoButton_negativeCase_username() {
-		final EditText username =
-			(EditText) loginActivity.findViewById(R.id.username);
-		final EditText password =
-			(EditText) loginActivity.findViewById(R.id.password);
-		final View goButton =
-			loginActivity.findViewById(R.id.login_go_button);
-		final Instrumentation.ActivityResult result = 
-			new Instrumentation.ActivityResult(13, null);
-		final ActivityMonitor myMonitor =
-			new Instrumentation.ActivityMonitor(
-					"com.renomad.capsaicin.GeneralActivity", 
-					result,
-					true);
-		loginActivity.runOnUiThread(new Runnable() {
-			public void run() {
-				username.setText("");
-				password.setText("this is a password");
-				goButton.performClick();
-				int numOfHitsOnGeneralActivity = myMonitor.getHits();
-				assertEquals(0, numOfHitsOnGeneralActivity);
-			}
-		});
-	}
-		
+    public void testLoginFieldsValid_negativePassCase() {
+        String username = "testuser";
+        String password = "not a valid entry";
+        boolean isValid = loginActivity
+                .loginFieldsValid(username, password);
+        assertTrue(isValid);
+    }
 
 }

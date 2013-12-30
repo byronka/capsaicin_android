@@ -22,12 +22,11 @@ public class LoginActivity extends Activity {
 
 			@Override
 			public void onClick(View view) {
-				if (!loginFieldsFilled(
-							getUsernameText(), 
-							getPasswordText())) {
-					showEmptyFieldValidationToast();
-					return;
-				}
+                String username = getUsernameText();
+                String password = getPasswordText();
+				if (!loginFieldsValid(username, password)) {
+                    return;
+                }
 
 				final Intent intent = new Intent();
 				final ComponentName generalActivity = 
@@ -37,6 +36,17 @@ public class LoginActivity extends Activity {
 				startActivity(intent);
 			}
 	}
+
+    public boolean loginFieldsValid(String username, String password) {
+        if (!loginFieldsFilled(username,password)) {
+            showEmptyFieldValidationToast();
+            return false;
+        }
+        if (!(username.equals("testuser") || password.equals("testpass"))) {
+            return false;
+        }
+        return true;
+    }
 
 	public void showEmptyFieldValidationToast() {
 		Toast.makeText(getApplicationContext(), 
