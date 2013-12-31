@@ -21,7 +21,7 @@ public class VideoDataProvider {
         DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
 
         try {
-            sendPacket.setData("We are sending this from Android".getBytes());
+            sendPacket.setData("TESTTEST".getBytes());
             sendPacket.setAddress(Inet4Address.getByName("192.168.56.2"));
             sendPacket.setPort(4321);
 
@@ -40,7 +40,7 @@ public class VideoDataProvider {
         DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
 
         try {
-            sendPacket.setData("We are sending this from Android".getBytes());
+            sendPacket.setData("TESTTEST".getBytes());
             sendPacket.setAddress(Inet4Address.getByName("192.168.56.2"));
             sendPacket.setPort(4321);
 
