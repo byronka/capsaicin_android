@@ -28,25 +28,7 @@ public class VideoDataProvider {
             DatagramSocket mySocket = new DatagramSocket();
 
             mySocket.send(sendPacket);
-            mySocket.receive(receivePacket);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return receivePacket.getData();
-    }
-
-    public byte[] sendVideo() {
-        DatagramPacket sendPacket = new DatagramPacket(new byte[1024], 1024);
-        DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
-
-        try {
-            sendPacket.setData("TESTTEST".getBytes());
-            sendPacket.setAddress(Inet4Address.getByName("192.168.56.2"));
-            sendPacket.setPort(4321);
-
-            DatagramSocket mySocket = new DatagramSocket();
-
-            mySocket.send(sendPacket);
+            mySocket.getReceiveBufferSize();
             mySocket.receive(receivePacket);
         } catch (IOException e) {
             e.printStackTrace();

@@ -12,14 +12,10 @@ import java.util.Arrays;
 public class VideoDataProvider_tests extends TestCase{
 
     public void testReceiveVideo() {
-        String returned_bytes_string = new String(new VideoDataProvider().getVideo()).trim();
+        byte[] videoBytes = new VideoDataProvider().getVideo();
+        String returned_bytes_string = new String(videoBytes).trim();
         String expected_bytes_string = "TESTTESTOK";
         Assert.assertEquals(returned_bytes_string, expected_bytes_string, returned_bytes_string);
     }
 
-    public void testSendVideo() {
-        String returned_bytes_string = new String(new VideoDataProvider().sendVideo()).trim();
-        String expected_bytes_string = "TESTTESTOK";
-        Assert.assertEquals(returned_bytes_string, expected_bytes_string, returned_bytes_string);
-    }
 }
