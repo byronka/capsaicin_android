@@ -1,15 +1,8 @@
 package com.renomad.capsaicin;
 
-import android.provider.MediaStore;
-
 import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.Inet4Address;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.io.InputStream;
 import java.net.Socket;
-import java.nio.channels.DatagramChannel;
 
 /**
  * Created by Byron on 12/29/13.
@@ -17,23 +10,31 @@ import java.nio.channels.DatagramChannel;
 public class VideoDataProvider {
 
     public byte[] getVideo() {
-        DatagramPacket sendPacket = new DatagramPacket(new byte[1024], 1024);
-        DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
+		InputStream myInputStream = null;
+		byte[] buffer = new byte[1024];
+		Socket mySocket = null;
 
         try {
-            sendPacket.setData("TESTTEST".getBytes());
-            sendPacket.setAddress(Inet4Address.getByName("192.168.56.2"));
-            sendPacket.setPort(4321);
-
-            DatagramSocket mySocket = new DatagramSocket();
-
-            mySocket.send(sendPacket);
-            mySocket.getReceiveBufferSize();
-            mySocket.receive(receivePacket);
+			mySocket = new Socket("192.168.56.2", 4321);
+			if (mySocket.isConnected()) {
+				myInputStream = mySocket.getInputStream();
+				myInputStream.read(buffer);
+			}
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        return receivePacket.getData();
+			return null;
+        } finally {
+			closeSocket(mySocket);
+		}
+		return buffer;
     }
+
+	public void closeSocket(Socket socket) {
+		try {
+			socket.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 }
