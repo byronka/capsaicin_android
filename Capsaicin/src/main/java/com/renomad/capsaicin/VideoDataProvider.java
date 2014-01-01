@@ -2,6 +2,7 @@ package com.renomad.capsaicin;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 
 /**
@@ -28,6 +29,23 @@ public class VideoDataProvider {
 		}
 		return buffer;
     }
+
+	public void sendVideo(byte[] toSend) {
+		OutputStream myOutputStream = null;
+		Socket mySocket = null;
+
+        try {
+			mySocket = new Socket("192.168.56.2", 4322);
+			if (mySocket.isConnected()) {
+				myOutputStream = mySocket.getOutputStream();
+				myOutputStream.write(toSend);
+			}
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+			closeSocket(mySocket);
+		}
+	}
 
 	public void closeSocket(Socket socket) {
 		try {

@@ -13,9 +13,13 @@ public class VideoDataProvider_tests extends TestCase{
 
     public void testReceiveVideo() {
         byte[] videoBytes = new VideoDataProvider().getVideo();
-        String returned_bytes_string = new String(videoBytes).trim();
-        String expected_bytes_string = "TESTTESTOK";
-        Assert.assertEquals(returned_bytes_string, expected_bytes_string, returned_bytes_string);
+		int length = videoBytes.length;
+        Assert.assertEquals(1024, length);
     }
+
+	public void testSendVideo() {
+		byte[] bytesToSend = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+		new VideoDataProvider().sendVideo(bytesToSend);
+	}
 
 }
