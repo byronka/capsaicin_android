@@ -38,14 +38,21 @@ public class VideoDataProvider {
     }
 
 	public void sendVideo(byte[] toSend) {
+		InputStream myInputStream = null;
 		OutputStream myOutputStream = null;
+		byte[] receive_buffer = new byte[1024];
+		byte[] request_buffer = {2}; // 2 means we are sending to server
 		Socket mySocket = null;
 
         try {
-			mySocket = new Socket("192.168.56.2", 4322);
+			mySocket = new Socket("192.168.56.2", 4321);
 			if (mySocket.isConnected()) {
+				myInputStream = mySocket.getInputStream();
 				myOutputStream = mySocket.getOutputStream();
-				myOutputStream.write(toSend);
+				
+				myOutputStream.write(request_buffer); //"..we want to send"
+				myInputStream.read(receive_buffer); //"OK.."
+				myOutputStream.write(toSend); //"..sending bytes"
 			}
         } catch (IOException e) {
             e.printStackTrace();
