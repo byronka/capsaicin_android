@@ -12,6 +12,29 @@ import android.util.Log;
 public class VideoDataProvider {
 
 	private static final String ACTIVITY_TAG = "VideoDataProvider";
+	private static final String OK_MESSAGE = 0;
+
+	enum Action {
+		CLIENT_WANTS_VIDEO = 1,
+		CLIENT_SENDING_SERVER_VIDEO = 2
+	}
+
+	class ServerMessage {
+
+		private final byte[] message;
+
+        //TODO - BK - make sure this is truly atomic
+		//TODO - BK - set up a way to send encoded messages back and forth. openssl?
+		public ServerMessage(Action action, id) {
+			this.message = new byte[10];
+			this.message[0] = action;
+			this.message[1] = id;
+		}
+
+		public byte[] getMessage() {
+			return this.clone();
+		}
+	}
 
     public byte[] getVideo() {
 		InputStream myInputStream = null;
