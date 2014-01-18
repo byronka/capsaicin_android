@@ -1,1 +1,6 @@
-/build
+/capsaicin/libs/v7/appcompat/bin
+/capsaicin/bin
+/capsaicin_test/bin
+/capsaicin/gen
+/capsaicin_test/gen
+/capsaicin/libs/v7/appcompat/gen
