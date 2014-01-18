@@ -28,13 +28,13 @@ public class VideoAdapter implements ListAdapter {
     private View view;
     private Bundle bundle;
 
-   public VideoAdapter(View view, Bundle bundle) {
-        this.view = view;
-        this.bundle = bundle;
-   }
+	public VideoAdapter(View view, Bundle bundle) {
+		this.view = view;
+		this.bundle = bundle;
+	}
 
     public void instantiateFakeVideos() {
-       videoItems = new VideoItem[3];
+	    videoItems = new VideoItem[3];
         videoItems[0] = VideoItem.createVideoItem(0, "http://172.60.12.13:8080/byron_talking.mp4");
         videoItems[1] = VideoItem.createVideoItem(1, "http://172.60.12.13:8080/byron_talking.mp4");
         videoItems[2] = VideoItem.createVideoItem(2, "http://172.60.12.13:8080/byron_talking.mp4");
@@ -85,23 +85,35 @@ public class VideoAdapter implements ListAdapter {
     private void wireUpTheVideoView(View myVideoItemView) {
 
         final Context myContext = myVideoItemView.getContext();
-        Button lines_button = (Button)myVideoItemView.findViewById(R.id.video_comment_button);
+        Button lines_button = 
+			(Button)myVideoItemView.findViewById(R.id.video_comment_button);
+		if (lines_button == null) {
+			//TODO - BK - 1/11/2014 this section is for debugging, make better.
+			//I added this in solely to figure out why it was crashing when
+			//trying to set the click listener on the lines button.
+			Log.d("VideoAdapter", "lines_button was null, cannot instantiate");
+
+		}
         lines_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 final Intent intent = new Intent();
-                final ComponentName generalActivity = new ComponentName("com.renomad.capsaicin",
+                final ComponentName generalActivity = 
+					new ComponentName("com.renomad.capsaicin",
                         "com.renomad.capsaicin.UniqueVideoActivity");
                 intent.setComponent(generalActivity);
                 myContext.startActivity(intent);
             }
         });
 
-        final VideoView videoView = (VideoView)myVideoItemView.findViewById(R.id.videoView);
+        final VideoView videoView = 
+			(VideoView)myVideoItemView.findViewById(R.id.videoView);
         if (videoView != null) {
 
-            final MediaController myMediaController = new MediaController(videoView.getContext());
-            final ImageView pictureView = (ImageView)myVideoItemView.findViewById(R.id.my_fake_video);
+            final MediaController myMediaController = 
+				new MediaController(videoView.getContext());
+            final ImageView pictureView = 
+				(ImageView)myVideoItemView.findViewById(R.id.my_fake_video);
             if (pictureView != null) {
 
                 videoView.setOnFocusChangeListener(new View.OnFocusChangeListener() {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.util.Log;
 
 public class LoginActivity extends Activity {
 
@@ -15,7 +16,11 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         final View go_button = findViewById(R.id.login_go_button);
+		if (go_button == null) {
+			Log.d("LoginActivity", "go button was null");
+		} else {
         go_button.setOnClickListener(new GoButtonHandler());
+		}
     }
 
 	class GoButtonHandler implements View.OnClickListener {

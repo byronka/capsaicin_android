@@ -13,11 +13,11 @@ import android.widget.VideoView;
 
 public class VideoFragment extends ListFragment {
 
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        VideoAdapter myVideoAdapter = new VideoAdapter(view, savedInstanceState);
-        myVideoAdapter.instantiateFakeVideos();
-        setListAdapter(myVideoAdapter);
-       }
+	@Override
+	public void onViewCreated(View view, Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+		VideoAdapter myVideoAdapter = new VideoAdapter(view, savedInstanceState);
+		myVideoAdapter.instantiateFakeVideos();
+		setListAdapter(myVideoAdapter);
+	}
 }

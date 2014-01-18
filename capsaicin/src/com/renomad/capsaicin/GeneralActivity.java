@@ -23,9 +23,12 @@ public class GeneralActivity extends ActionBarActivity {
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = (ViewPager) findViewById(R.id.activity_general_viewpager);
-        viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        mAppSectionsPagerAdapter = 
+			new AppSectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = 
+					(ViewPager) findViewById(R.id.activity_general_viewpager);
+        viewPager.setOnPageChangeListener(
+				new ViewPager.SimpleOnPageChangeListener() {
             @Override
             public void onPageSelected(int position) {
 							actionBar.setSelectedNavigationItem(position);
@@ -35,17 +38,18 @@ public class GeneralActivity extends ActionBarActivity {
         viewPager.setAdapter(mAppSectionsPagerAdapter);
 
         for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-                actionBar.addTab(actionBar.newTab()
-                    .setText(mAppSectionsPagerAdapter.getPageTitle(i))
-                    .setTabListener(new GeneralActivityTabListener(viewPager)));
+					actionBar.addTab(actionBar.newTab()
+						.setText(mAppSectionsPagerAdapter.getPageTitle(i))
+						.setTabListener(new GeneralActivityTabListener(viewPager)));
         }
     }
 
     /**
-     * A {@link FragmentPagerAdapter} that returns a fragment corresponding to one of the primary
+     * A {@link FragmentPagerAdapter} that returns a fragment 
+		 * corresponding to one of the primary
      * sections of the app.
      */
-    public static class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+    public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
 
         public AppSectionsPagerAdapter(FragmentManager fm) {
             super(fm);
