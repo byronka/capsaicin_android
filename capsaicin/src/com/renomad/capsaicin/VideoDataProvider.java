@@ -9,41 +9,20 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.net.InetSocketAddress;
 import android.content.Context;
-import android.util.Log;
 import java.io.File;
 import com.renomad.capsaicin.CtlMsg;
 import com.renomad.capsaicin.CtlAct;
-
+import com.renomad.capsaicin.Logger;
 /**
  * Responsible for low-level handling of data.
  * @author Byron Katz
  */
 public class VideoDataProvider {
 
-	public VideoDataProvider() {
-		this(false);
-	}
-
-	public VideoDataProvider(boolean shouldDebug) {
-		this.shouldDebug = shouldDebug;
-	}
-
 	private static final String ACTIVITY_TAG = "VideoDataProvider";
 	private static final String SERVER_IP_ADDR = "192.168.56.2";
 	private static final int SERVER_PORT_NUMBER = 4321;
 
-	private boolean shouldDebug = false;
-
-	/**
-	  * Rudimentary logging facility.
-	  * @param tag the class
-	  * @param msg explanatory message
-	  */
-	public void mylog(String tag, String msg) {
-		if (shouldDebug) {
-			Log.d(tag, msg);
-		}
-	}
 
     /**
 	  * Requests video from server.
@@ -51,24 +30,25 @@ public class VideoDataProvider {
 	  * @return a valid InputStream, or null
 	  */
 	public InputStream getVidInStrm(CtlMsg cm, String ip_addr, int port) {
+		Logger.mylog(ACTIVITY_TAG, "cm: " + cm.toString());
 		InputStream myInputStream = null;
 		OutputStream myOutputStream = null;
 		Socket mySocket = null;
-		mylog(ACTIVITY_TAG, "about to open socket");
+		Logger.mylog(ACTIVITY_TAG, "about to open socket");
 
 			try {
 				mySocket = new Socket();
-				InetSocketAddress isa = new InetSocketAddress(ip_addr, port);
+				InetSocketAddress addr = new InetSocketAddress(ip_addr, port);
 				int timeout = 1 * 1000; // milliseconds
-				mySocket.connect(isa, timeout);
+				mySocket.connect(addr, timeout);
 				if (mySocket != null && mySocket.isConnected()) {
-					mylog(ACTIVITY_TAG, "socket opened and connected");
+					Logger.mylog(ACTIVITY_TAG, "socket opened and connected");
 
 					//get the streams from socket.
 					myInputStream = mySocket.getInputStream();
 					myOutputStream = mySocket.getOutputStream();
 
-					mylog(ACTIVITY_TAG, "about to tell socket we want a video");
+					Logger.mylog(ACTIVITY_TAG, "about to tell socket we want a video");
 					myOutputStream.write(cm.getMessage()); //we want a video
 				}
 			} catch (UnknownHostException e) {
@@ -107,7 +87,7 @@ public class VideoDataProvider {
 			getVidInStrm(cm, SERVER_IP_ADDR, SERVER_PORT_NUMBER);
 		if (istrm != null) {
 			result = getVidFromStrm(buf, istrm, bytecount);
-			mylog(ACTIVITY_TAG, "null inputstream in grabSomeVideoData");
+			Logger.mylog(ACTIVITY_TAG, "null inputstream in grabSomeVideoData");
 		}
 		return result;
 	}
@@ -159,7 +139,7 @@ public class VideoDataProvider {
 		int result = 0;
 		try {
 			result = istrm.read(buf, 0, bytecount);
-			mylog(ACTIVITY_TAG, "read from socket");
+			Logger.mylog(ACTIVITY_TAG, "read from socket");
 		} catch (IOException e) {
 			//TODO - BK 1/17/2014 - need to handle situation where
 			//reading the buffer does not happen like we think it ought.
@@ -193,23 +173,23 @@ public class VideoDataProvider {
 //
 //        try {
 //			mySocket = new Socket("192.168.56.2", SERVER_PORT_NUMBER);
-//			mylog("sendVideo", 
+//			Logger.mylog("sendVideo", 
 //					"created new socket at " + SERVER_PORT_NUMBER);
 //			if (mySocket.isConnected()) {
-//				mylog("sendVideo", "socket is connected");
+//				Logger.mylog("sendVideo", "socket is connected");
 //				myInputStream = mySocket.getInputStream();
 //				myOutputStream = mySocket.getOutputStream();
 //				
 //				myOutputStream.write(sm.getMessage()); //"..we want to send"
-//				mylog("sendVideo", 
+//				Logger.mylog("sendVideo", 
 //					"requesting to send server a video " + id.toString());
 //
 //				myInputStream.read(receive_buffer); //"OK.."
-//				mylog("sendVideo", 
+//				Logger.mylog("sendVideo", 
 //						"received back " + receive_buffer.toString());
 //
 //				myOutputStream.write(toSend); //"..sending bytes"
-//				mylog("sendVideo", "");
+//				Logger.mylog("sendVideo", "");
 //			}
 //		} catch (Exception e) {
 //			throw e; //controller should handle this

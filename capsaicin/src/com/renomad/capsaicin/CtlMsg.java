@@ -6,7 +6,7 @@ package com.renomad.capsaicin;
 	  * to be opaque, but fast.
 	  *
 	  */
-	public class CtlMsg {
+	public final class CtlMsg {
 
 		private final byte action;
 		private final byte id;
@@ -21,8 +21,8 @@ package com.renomad.capsaicin;
 		  * @param action CtlAct.send or CtlAct.receive
 		  * @param id the video we want
 		  */
-		public CtlMsg(byte action, byte id) {
-			this.action = action;
+		public CtlMsg(CtlAct action, byte id) {
+			this.action = action.getValue();
 			this.id = id;
 		}
 
@@ -34,4 +34,10 @@ package com.renomad.capsaicin;
 			byte[] msg = {action, id};
 			return msg;
 		}
+
+		@Override
+		public String toString() {
+			return "action: " + action + " id: " + id;
+		}
+
 	}

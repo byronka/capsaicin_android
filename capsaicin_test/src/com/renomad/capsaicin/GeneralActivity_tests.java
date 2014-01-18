@@ -29,12 +29,12 @@ public class GeneralActivity_tests
 		}
 	}
 
-	public void testGettingVideo() {
-		File file = generalActivity.getCacheDir();
-		VideoDataProvider vdp = new VideoDataProvider();
-		vdp.controlVideoInTrans(
-				generalActivity.getBaseContext(), (byte)5);
-		mInstrumentation.waitForIdleSync();
-	}
+//	public void testGettingVideo() {
+//		File file = generalActivity.getCacheDir();
+//		VideoDataProvider vdp = new VideoDataProvider();
+//		vdp.controlVideoInTrans(
+//				generalActivity.getBaseContext(), (byte)5);
+//		mInstrumentation.waitForIdleSync();
+//	}
 
 }
