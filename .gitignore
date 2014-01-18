@@ -4,3 +4,4 @@
 /capsaicin/gen
 /capsaicin_test/gen
 /capsaicin/libs/v7/appcompat/gen
+*.db
