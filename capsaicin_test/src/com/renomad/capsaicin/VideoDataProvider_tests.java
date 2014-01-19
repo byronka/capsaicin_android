@@ -3,6 +3,7 @@ package com.renomad.capsaicin.tests;
 import com.renomad.capsaicin.VideoDataProvider;
 import com.renomad.capsaicin.CtlMsg;
 import com.renomad.capsaicin.CtlAct;
+import com.renomad.capsaicin.Logger;
 import java.io.InputStream;
 import junit.framework.*;
 import java.util.Arrays;
@@ -14,50 +15,48 @@ import java.util.Arrays;
  */
 public class VideoDataProvider_tests extends TestCase{
 
-    public void testGettingSomeData3() {
-			VideoDataProvider vdp = new VideoDataProvider();
-			byte id = 5;
-			CtlMsg cm = new CtlMsg(CtlAct.CLIENT_WANTS_VID, id);
-			String ip_addr = "192.168.56.2";
-			int port = 4321;
-			InputStream iStrm = vdp.getVidInStrm(cm, ip_addr, port);
-			Assert.assertTrue(iStrm != null);
-			byte[] buf = new byte[2067753];
-			int result = vdp.getVidFromStrm(buf, iStrm, 0);
-			Assert.assertTrue(buf.length > 0);
-			System.out.println("test3: buf length is " + buf.length);
-			System.out.println("test3: result is " + result);
-    }
 
-    public void testGettingSomeData2() {
+    private void testGettingSomeData_aux(int testid, int bytecount) {
 			VideoDataProvider vdp = new VideoDataProvider();
+			Logger.log("test"+testid+
+					": want "+bytecount+" bytes from the server");
 			byte id = 5;
 			CtlMsg cm = new CtlMsg(CtlAct.CLIENT_WANTS_VID, id);
 			String ip_addr = "192.168.56.2";
 			int port = 4321;
 			InputStream iStrm = vdp.getVidInStrm(cm, ip_addr, port);
 			Assert.assertTrue(iStrm != null);
-			byte[] buf = new byte[2067753];
-			int result = vdp.getVidFromStrm(buf, iStrm, 2067753);
-			Assert.assertTrue(buf.length > 0);
-			System.out.println("test2: buf length is " + buf.length);
-			System.out.println("test2: result is " + result);
+			byte[] buf = new byte[1024];
+			int result = vdp.getVidFromStrm(buf, iStrm, bytecount);
+			try {
+				iStrm.close();
+			} catch (Exception e) {
+				Logger.log("test"+testid+" exception at testGettingSomeData");
+			}
+			Logger.log("test"+testid+": Actual result: " + result);
+			Assert.assertEquals(bytecount, result);
     }
 
     public void testGettingSomeData1() {
-			VideoDataProvider vdp = new VideoDataProvider();
-			byte id = 5;
-			CtlMsg cm = new CtlMsg(CtlAct.CLIENT_WANTS_VID, id);
-			String ip_addr = "192.168.56.2";
-			int port = 4321;
-			InputStream iStrm = vdp.getVidInStrm(cm, ip_addr, port);
-			Assert.assertTrue(iStrm != null);
-			byte[] buf = new byte[2067753];
-			int result = vdp.getVidFromStrm(buf, iStrm, 2067753-1000);
-			Assert.assertTrue(result > 0);
-			System.out.println("test1: buf length is " + buf.length);
-			System.out.println("test1: result is " + result);
-    }
+			testGettingSomeData_aux(1, 0);
+		}
+
+    public void testGettingSomeData2() {
+			testGettingSomeData_aux(2, 1024);
+		}
+
+    public void testGettingSomeData3() {
+			testGettingSomeData_aux(3, 1023);
+		}
+
+    public void testGettingSomeData4() {
+			try {
+				testGettingSomeData_aux(4, 1025);
+				Assert.fail("we should have hit an exception for invalid params");
+			} catch (IllegalArgumentException e) {
+				//if no failure, we caught the exception 
+			}
+		}
 
     public void testGettingInputStreamOnGetVideo() {
 			VideoDataProvider vdp = new VideoDataProvider();

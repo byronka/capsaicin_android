@@ -1,5 +1,7 @@
 package com.renomad.capsaicin;
 
+import com.renomad.capsaicin.Logger;
+
 	/** 
 	  *  Control message for data flow to server. Needs to
 	  * be encrypted and secure.  We want our communication
@@ -31,6 +33,7 @@ package com.renomad.capsaicin;
 		  * @return a throw-away byte array
 		  */
 		public byte[] getMessage() {
+			Logger.log("returning a control message of action "+action+" and id "+id+".");
 			byte[] msg = {action, id};
 			return msg;
 		}

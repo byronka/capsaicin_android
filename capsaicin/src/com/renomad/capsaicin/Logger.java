@@ -11,9 +11,11 @@ public class Logger {
 		* @param tag the class
 		* @param msg explanatory message
 		*/
-	public static void mylog(String tag, String msg) {
+	public static void log(String msg) {
+
+		final String TAG = "Capsaicin";
 		if (shouldDebug) {
-			Log.d(tag, msg);
+			Log.d(TAG, msg);
 		}
 	}
 
