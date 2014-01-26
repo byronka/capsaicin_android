@@ -72,7 +72,8 @@ public final class CtlMsg {
 
     @Override
     public String toString() {
-	return "action: " + action + " sid: " + sid + " vid: " + vid;
+	return "action: " + action + " sid: " + sid + " vid: " + vid +
+	    "uid: " + uid + " offset: " + offset + " sbytes: " + sbytes;
     }
 
 }
