@@ -5,9 +5,6 @@ import java.util.UUID;
 import com.renomad.capsaicin.Logger;
 
 /** 
- *  Control message for data flow to server. Needs to
- * be encrypted and secure.  We want our communication
- * to be opaque, but fast.
  * see comments in code for capsaicin_server.c to better
  * understand the protocol. -BK 1/19/2014
  * @author Byron Katz
@@ -20,11 +17,6 @@ public final class CtlMsg {
     private final UUID uid;
     private final long offset;
     private final short sbytes;
-
-    //TODO - BK - make sure that the following adheres to best
-    //practices for thread safety
-    //TODO - BK - set up a way to send encoded messages back and forth.
-    //openssl?                         
 
     /**
      * Constructor method to creat a thread-safe object 
@@ -57,17 +49,9 @@ public final class CtlMsg {
      * Thread safe message object
      * @return a throw-away byte array
      */
-    public byte[] getMessage() {
-	ByteBuffer mbuf = ByteBuffer.allocate(47); //current size
-	mbuf.putInt(sid)
-	    .put(action.getValue())
-	    .putLong(vid.getMostSignificantBits())
-	    .putLong(vid.getLeastSignificantBits())
-	    .putLong(uid.getMostSignificantBits())
-	    .putLong(uid.getLeastSignificantBits())
-	    .putLong(offset)
-	    .putShort(sbytes);
-	return mbuf.array();
+    public String getMessage() {
+	return String.format("%d:%s:%d:%d:%d:%d:%d:%d",
+		      sid, action, eid, uid, offset, sbytes, seq, ts);
     }
 
     @Override

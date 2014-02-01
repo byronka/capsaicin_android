@@ -5,15 +5,15 @@ package com.renomad.capsaicin;
 	  * @author Byron Katz
 	  */
 	public enum CtlAct {
-		CLIENT_WANTS_VID((byte)1),
-		CLIENT_SENDING_SVR_VID((byte)2),
-		OK_MSG((byte)0);
+		CLIENT_WANTS_VID("get"),
+		CLIENT_SENDING_SVR_VID("put"),
+		OK_MSG("ok");
 
-		private final byte value;
+		private String value;
 
-		private CtlAct(final byte newValue) {
+		private CtlAct(String newValue) {
 			value = newValue;
 		}
 
-		public byte getValue() {return value;}
+		public String getValue() {return value;}
 	}
