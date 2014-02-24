@@ -4,7 +4,6 @@ import android.test.ActivityInstrumentationTestCase2;
 import android.app.Instrumentation;
 import android.widget.EditText;
 import com.renomad.capsaicin.GeneralActivity;
-import com.renomad.capsaicin.VideoDataProvider;
 import com.renomad.capsaicin.R;
 import android.util.Log;
 import java.io.File;
