@@ -35,9 +35,9 @@ public class VideoAdapter implements ListAdapter {
 
     public void instantiateFakeVideos() {
 	    videoItems = new VideoItem[3];
-        videoItems[0] = VideoItem.createVideoItem(0, "http://paprika:3000/VIDEO0018.mp4");
-        videoItems[1] = VideoItem.createVideoItem(1, "http://paprika:3000/VIDEO0018.mp4");
-        videoItems[2] = VideoItem.createVideoItem(2, "http://paprika:3000/VIDEO0018.mp4");
+        videoItems[0] = VideoItem.createVideoItem(0, "http://10.0.2.2:8080/byron_talking.mp4");
+        videoItems[1] = VideoItem.createVideoItem(1, "http://10.0.2.2:8080/byron_talking.mp4");
+        videoItems[2] = VideoItem.createVideoItem(2, "http://10.0.2.2:8080/byron_talking.mp4");
         itemCount = 3;
     }
 
@@ -133,7 +133,7 @@ public class VideoAdapter implements ListAdapter {
                         Log.i("VideoFragment", "You just clicked the picture!");
                         pictureView.setVisibility(View.GONE);
                         videoView.setVisibility(View.VISIBLE);
-                        String url = "http://paprika:3000/VIDEO0018.mp4"; // your URL here
+                        String url = "http://10.0.2.2:8080/byron_talking.mp4"; // your URL here
                         videoView.setVideoPath(url);
                         videoView.setMediaController(myMediaController);
                         videoView.start();
