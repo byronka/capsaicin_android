@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.MediaController;
 import android.widget.VideoView;
-import com.renomad.capsaicin.MyVideoView;
 
 /**
  * Created by Byron on 12/7/13.
@@ -115,8 +114,7 @@ public class VideoAdapter implements ListAdapter {
 			(VideoView)myVideoItemView.findViewById(R.id.videoView);
         if (videoView != null) {
 
-            final MediaController myMediaController = 
-				new MediaController(videoView.getContext());
+
             final ImageView pictureView = 
 				(ImageView)myVideoItemView.findViewById(R.id.my_fake_video);
             if (pictureView != null) {
@@ -124,23 +122,24 @@ public class VideoAdapter implements ListAdapter {
 		myVideoItemView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-			    Log.i("VideoFragment", "You just touched somewhere other than the video, lines, or picture!");
+			    Log.i("VideoFragment", "You just touched somewhere other than the lines, or picture!");
 			    videoView.stopPlayback();
+			    videoView.setMediaController(null);
 			    pictureView.setVisibility(View.VISIBLE);
 			    videoView.setVisibility(View.GONE);
 			    return false;
 			}
 		    });
 
-                videoView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Log.i("VideoFragment", "You just clicked the video!");
-			videoView.stopPlayback();
-			pictureView.setVisibility(View.VISIBLE);
-			videoView.setVisibility(View.GONE);
-                    }
-                });
+                // videoView.setOnClickListener(new View.OnClickListener() {
+                //     @Override
+                //     public void onClick(View view) {
+                //         Log.i("VideoFragment", "You just clicked the video!");
+		// 	videoView.stopPlayback();
+		// 	pictureView.setVisibility(View.VISIBLE);
+		// 	videoView.setVisibility(View.GONE);
+                //     }
+                // });
 
                 pictureView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -150,7 +149,7 @@ public class VideoAdapter implements ListAdapter {
 			videoView.setVisibility(View.VISIBLE);
 			String url = "http://10.0.2.2:8080/byron_talking.mp4"; // your URL here
 			videoView.setVideoPath(url);
-			videoView.setMediaController(myMediaController);
+			videoView.setMediaController(new MediaController(videoView.getContext()));
 			videoView.start();
                     }
                 });
