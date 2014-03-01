@@ -36,7 +36,7 @@
         <VideoView
             android:visibility="gone"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/video_item_height"
             android:id="@+id/videoView"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
@@ -44,7 +44,7 @@
         <ImageView
             android:id="@+id/my_fake_video"
             android:layout_width="fill_parent"
-            android:layout_height="200dp"
+            android:layout_height="@dimen/video_item_height"
             android:src="@drawable/fake_video"/>
         <TableLayout
                 android:layout_width="fill_parent"
