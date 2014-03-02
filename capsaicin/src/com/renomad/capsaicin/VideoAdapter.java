@@ -122,7 +122,7 @@ public class VideoAdapter implements ListAdapter {
 		myVideoItemView.setOnTouchListener(new OnTouchListener() {
 			@Override
 			public boolean onTouch(View view, MotionEvent event) {
-			    Log.i("VideoFragment", "You just touched somewhere other than the lines, or picture!");
+			    Log.i("VideoFragment", "You just touched somewhere other than the lines, or picture!, it was id " + view.getId());
 			    videoView.stopPlayback();
 			    videoView.setMediaController(null);
 			    pictureView.setVisibility(View.VISIBLE);
@@ -144,7 +144,7 @@ public class VideoAdapter implements ListAdapter {
                 pictureView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Log.i("VideoFragment", "You just clicked the picture!");
+                        Log.i("VideoFragment", "You just clicked the picture!, it is at id " + view.getId());
 			pictureView.setVisibility(View.GONE);
 			videoView.setVisibility(View.VISIBLE);
 			String url = "http://10.0.2.2:8080/byron_talking.mp4"; // your URL here

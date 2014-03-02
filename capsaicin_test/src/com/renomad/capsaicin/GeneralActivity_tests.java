@@ -7,6 +7,8 @@ import com.renomad.capsaicin.GeneralActivity;
 import com.renomad.capsaicin.R;
 import android.util.Log;
 import java.io.File;
+import java.lang.Thread;
+import android.widget.ImageView;
 
 public class GeneralActivity_tests 
 	extends ActivityInstrumentationTestCase2<GeneralActivity> {
@@ -28,6 +30,16 @@ public class GeneralActivity_tests
 		}
 	}
 
+	public void testGettingVideo() {
+	    final ImageView imageView = (ImageView) 
+		generalActivity.findViewById(2131034191);
+	    generalActivity.runOnUiThread(new Runnable() {
+		    public void run() {
+			imageView.performClick();
+		    }
+		});
+	    mInstrumentation.waitForIdleSync();
+	}
 //	public void testGettingVideo() {
 //		File file = generalActivity.getCacheDir();
 //		VideoDataProvider vdp = new VideoDataProvider();
