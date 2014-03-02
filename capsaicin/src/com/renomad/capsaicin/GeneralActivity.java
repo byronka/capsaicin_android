@@ -38,9 +38,9 @@ public class GeneralActivity extends ActionBarActivity {
         viewPager.setAdapter(mAppSectionsPagerAdapter);
 
         for (int i = 0; i < mAppSectionsPagerAdapter.getCount(); i++) {
-					actionBar.addTab(actionBar.newTab()
-						.setText(mAppSectionsPagerAdapter.getPageTitle(i))
-						.setTabListener(new GeneralActivityTabListener(viewPager)));
+	    actionBar.addTab(actionBar.newTab()
+			     .setText(mAppSectionsPagerAdapter.getPageTitle(i))
+			     .setTabListener(new GeneralActivityTabListener(viewPager)));
         }
     }
 
