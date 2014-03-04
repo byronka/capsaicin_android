@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <string name="app_name">Capsaicin</string>
-    <string name="video_activity_label">Videos</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-    <string name="go_button_content_description">Submit button</string>
-    <string name="username">Username:</string>
-    <string name="password">Password:</string>
-    <string name="video_title_text">Jeremy Passion Plays Guitar</string>
-    <string name="video_desc_text">I love playing my guitar. I am singing with my friend Torri
-Kelly. Check her Talentsack page out also.</string>
-    <string name="number_of_votes">3,827 VOTES</string>
-    <string name="fake_date_text">1/14/2014</string>
-    <string name="fake_number_of_views_text">Views 23,739</string>
-    <string name="dummy_section_text">this is some text</string>
-    <string name="dummy_profile_user_name">dummy user</string>
-    <string name="add_a_comment">Add a comment...</string>
-    <string name="vote">VOTE</string>
-    <string name="share">SHARE</string>
+  <string name="server_url">http://10.0.2.2:8080/</string>
+  <string name="app_name">Capsaicin</string>
+  <string name="video_activity_label">Videos</string>
+  <string name="hello_world">Hello world!</string>
+  <string name="action_settings">Settings</string>
+  <string name="go_button_content_description">Submit button</string>
+  <string name="username">Username:</string>
+  <string name="password">Password:</string>
+  <string name="video_title_text">Jeremy Passion Plays Guitar</string>
+  <string name="video_desc_text">I love playing my guitar. I am singing with my friend Torri
+  Kelly. Check her Talentsack page out also.</string>
+  <string name="number_of_votes">3,827 VOTES</string>
+  <string name="fake_date_text">1/14/2014</string>
+  <string name="fake_number_of_views_text">Views 23,739</string>
+  <string name="dummy_section_text">this is some text</string>
+  <string name="dummy_profile_user_name">dummy user</string>
+  <string name="add_a_comment">Add a comment...</string>
+  <string name="vote">VOTE</string>
+  <string name="share">SHARE</string>
 
 </resources>
