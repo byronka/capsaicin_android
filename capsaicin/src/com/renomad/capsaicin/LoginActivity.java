@@ -1,3 +1,4 @@
+
 package com.renomad.capsaicin;
 
 import android.app.Activity;
@@ -25,8 +26,8 @@ public class LoginActivity extends Activity {
 
 	class GoButtonHandler implements View.OnClickListener {
 
-			@Override
-			public void onClick(View view) {
+	    @Override
+	    public void onClick(View view) {
                 String username = getUsernameText();
                 String password = getPasswordText();
 				if (!loginFieldsValid(username, password)) {
