@@ -17,31 +17,31 @@ public class LoginActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         final View go_button = findViewById(R.id.login_go_button);
-		if (go_button == null) {
-			Log.d("LoginActivity", "go button was null");
-		} else {
-        go_button.setOnClickListener(new GoButtonHandler());
-		}
+	if (go_button == null) {
+	    Log.d("LoginActivity", "go button was null");
+	} else {
+	    go_button.setOnClickListener(new GoButtonHandler());
+	}
     }
 
-	class GoButtonHandler implements View.OnClickListener {
+    class GoButtonHandler implements View.OnClickListener {
 
-	    @Override
-	    public void onClick(View view) {
-                String username = getUsernameText();
-                String password = getPasswordText();
-				if (!loginFieldsValid(username, password)) {
-                    return;
-                }
+	@Override
+	public void onClick(View view) {
+	    String username = getUsernameText();
+	    String password = getPasswordText();
+	    if (!loginFieldsValid(username, password)) {
+		return;
+	    }
 
-				final Intent intent = new Intent();
-				final ComponentName generalActivity = 
-					new ComponentName("com.renomad.capsaicin", 
-						"com.renomad.capsaicin.GeneralActivity");
-				intent.setComponent(generalActivity);
-				startActivity(intent);
-			}
+	    final Intent intent = new Intent();
+	    final ComponentName generalActivity = 
+		new ComponentName("com.renomad.capsaicin", 
+				  "com.renomad.capsaicin.GeneralActivity");
+	    intent.setComponent(generalActivity);
+	    startActivity(intent);
 	}
+    }
 
     public boolean loginFieldsValid(String username, String password) {
         if (!loginFieldsFilled(username,password)) {
@@ -54,26 +54,26 @@ public class LoginActivity extends Activity {
         return true;
     }
 
-	public void showEmptyFieldValidationToast() {
-		Toast.makeText(getApplicationContext(), 
-				"this is my Toast message!!! =)",
-			Toast.LENGTH_LONG).show();
-	}
+    public void showEmptyFieldValidationToast() {
+	Toast.makeText(getApplicationContext(), 
+		       "this is my Toast message!!! =)",
+		       Toast.LENGTH_LONG).show();
+    }
 
-	public String getUsernameText() {
-		EditText username = (EditText)findViewById(R.id.username);
-		String usernameString = username.getText().toString();
-		return usernameString;
-	}
+    public String getUsernameText() {
+	EditText username = (EditText)findViewById(R.id.username);
+	String usernameString = username.getText().toString();
+	return usernameString;
+    }
 
-	public String getPasswordText() {
-		EditText password = (EditText)findViewById(R.id.password);
-		String passwordString = password.getText().toString();
-		return passwordString;
-	}
+    public String getPasswordText() {
+	EditText password = (EditText)findViewById(R.id.password);
+	String passwordString = password.getText().toString();
+	return passwordString;
+    }
 
-	public boolean loginFieldsFilled(String usernameString, 
-			String passwordString) {
-		return (!(usernameString.isEmpty() || passwordString.isEmpty()));
-	}
+    public boolean loginFieldsFilled(String usernameString, 
+				     String passwordString) {
+	return (!(usernameString.isEmpty() || passwordString.isEmpty()));
+    }
 }
