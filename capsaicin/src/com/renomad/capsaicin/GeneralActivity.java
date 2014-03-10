@@ -42,15 +42,12 @@ public class GeneralActivity extends ActionBarActivity {
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(false);
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-        mAppSectionsPagerAdapter = 
-	    new AppSectionsPagerAdapter(getSupportFragmentManager());
-        viewPager = 
-	    (ViewPager) findViewById(R.id.activity_general_viewpager);
+        mAppSectionsPagerAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.activity_general_viewpager);
         viewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
 		@Override
 		public void onPageSelected(int position) {
 		    actionBar.setSelectedNavigationItem(position);
-
 		}
 	    });
         viewPager.setAdapter(mAppSectionsPagerAdapter);
@@ -62,36 +59,23 @@ public class GeneralActivity extends ActionBarActivity {
         }
     }
 
-    /**
-     * Use this method to instantiate your menu, and add your items to it. You
-     * should return true if you have added items to it and want the menu to be displayed.
-     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate our menu from the resources by using the menu inflater.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 
-    /**
-     * This method is called when one of the menu items to selected. These items
-     * can be on the Action Bar, the overflow menu, or the standard options menu. You
-     * should return true if you handle the selection.
-     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.record_video:
 		dispatchTakeVideoIntent();
-                // Here we might start a background refresh task
                 return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     private void dispatchTakeVideoIntent() {
-
 	Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 	if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
 	    startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
@@ -105,7 +89,6 @@ public class GeneralActivity extends ActionBarActivity {
 	    Log.i("onActivityResult", "got video back from camera at uri: " + videoUri);
 	    String videoPath = getRealPathFromURI(videoUri);
 	    new UploadFilesTask().execute(videoPath);
-
 	}
     }
 
@@ -117,6 +100,9 @@ public class GeneralActivity extends ActionBarActivity {
 	return cursor.getString(column_index);
     }
 
+    /**
+     *   TODO - BK - 3/10/2014 - need to add a progress bar dialog for uploading?
+     */
     private class UploadFilesTask extends AsyncTask<String, Integer, Long> {
 	protected Long doInBackground(String... urls) {
 	    int count = urls.length;
