@@ -3,6 +3,7 @@ package com.renomad.capsaicin;
 import android.database.Cursor;
 import android.content.Intent;
 import android.content.ContentResolver;
+import android.content.CursorLoader;
 import android.provider.MediaStore;
 import android.os.Bundle;
 import android.os.AsyncTask;
@@ -31,6 +32,7 @@ import java.net.MalformedURLException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import android.util.Log;
+import android.app.AlertDialog;
 
 public class GeneralActivity extends ActionBarActivity {
 
@@ -79,12 +81,20 @@ public class GeneralActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    private void showGenericDialog(String text) {
+	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+	builder.setMessage(text)
+	    .setTitle("Alert");
+	AlertDialog dialog = builder.create();
+	dialog.show();
+    }
+
     private void dispatchTakeVideoIntent() {
 	Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 	if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-	    startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+		startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
+	    }
 	}
-    }
 
     private class VideoResult {
 	private final String url;
@@ -116,17 +126,25 @@ public class GeneralActivity extends ActionBarActivity {
 	}
     }
 
-    private int getSizeOfVideo(Uri videoUri) {
-	//TODO THIS IS FALSE!! FIX ME WHEn YOU CAN
-	return 1000;
+    private int getSizeOfVideo(Uri contentUri) {
+	String[] proj = { MediaStore.Images.Media.SIZE };
+	CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
+	Cursor cursor = cl.loadInBackground();
+	int sizeIndex = cursor.
+	    getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+	cursor.moveToFirst();
+	String sizeString = cursor.getString(sizeIndex);
+	return Integer.parseInt(sizeString);
     }
 
     public String getRealPathFromURI(Uri contentUri) {
-	String[] proj = { MediaStore.Images.Media.DATA };
-	Cursor cursor = managedQuery(contentUri, proj, null, null, null);
-	int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	String[] proj = { MediaStore.Images.Media.DATA};
+	CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
+	Cursor cursor = cl.loadInBackground();
+	int dataIndex = cursor.
+	    getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	cursor.moveToFirst();
-	return cursor.getString(column_index);
+	return cursor.getString(dataIndex);
     }
 
     /**
@@ -150,7 +168,7 @@ public class GeneralActivity extends ActionBarActivity {
 	}
 
 	protected void onPostExecute(Long result) {
-	    //	    showDialog("Uploaded " + result + " bytes");
+	    showGenericDialog("Uploaded " + result + " bytes");
 	}
     }
 
