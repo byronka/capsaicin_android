@@ -33,17 +33,23 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import android.util.Log;
 import android.app.AlertDialog;
+import android.net.http.AndroidHttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.HttpClient;
+import org.apache.http.HttpResponse;
+import android.os.Build;
+import org.apache.http.entity.FileEntity;
 
 public class GeneralActivity extends ActionBarActivity {
 
     ViewPager viewPager;
     AppSectionsPagerAdapter mAppSectionsPagerAdapter;
     private static final int REQUEST_VIDEO_CAPTURE = 1;
-    private static final String SERVER_URL = "http://192.168.56.2/test.py";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+	disableConnectionReuseIfNecessary();
         setContentView(R.layout.activity_general);
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(false);
@@ -76,7 +82,7 @@ public class GeneralActivity extends ActionBarActivity {
         switch (item.getItemId()) {
             case R.id.record_video:
 		dispatchTakeVideoIntent();
-                return true;
+                return true; //TODO - BK - is this line even necessary with the line two lines down?
         }
         return super.onOptionsItemSelected(item);
     }
@@ -120,7 +126,9 @@ public class GeneralActivity extends ActionBarActivity {
 	    Uri videoUri = data.getData();
 	    Log.i("onActivityResult", "got video back from camera at uri: " + videoUri);
 	    String videoPath = getRealPathFromURI(videoUri);
+	    Log.i("onActivityResult", "converted video path was: " + videoPath);
 	    int videoSize = getSizeOfVideo(videoUri);
+	    Log.i("onActivityResult", "size of video is: " + videoSize);
 	    VideoResult vResult = new VideoResult(videoPath, videoSize);
 	    new UploadFilesTask().execute(vResult);
 	}
@@ -130,8 +138,7 @@ public class GeneralActivity extends ActionBarActivity {
 	String[] proj = { MediaStore.Images.Media.SIZE };
 	CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
 	Cursor cursor = cl.loadInBackground();
-	int sizeIndex = cursor.
-	    getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
+	int sizeIndex = cursor. getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
 	cursor.moveToFirst();
 	String sizeString = cursor.getString(sizeIndex);
 	return Integer.parseInt(sizeString);
@@ -141,8 +148,7 @@ public class GeneralActivity extends ActionBarActivity {
 	String[] proj = { MediaStore.Images.Media.DATA};
 	CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
 	Cursor cursor = cl.loadInBackground();
-	int dataIndex = cursor.
-	    getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+	int dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
 	cursor.moveToFirst();
 	return cursor.getString(dataIndex);
     }
@@ -155,56 +161,39 @@ public class GeneralActivity extends ActionBarActivity {
 	    int count = results.length;
 	    long totalSize = 0;
 	    for (int i = 0; i < count; i++) {
-		totalSize += uploadToServer(results[i]);
-		publishProgress((int) ((i / (float) count) * 100));
+		uploadToServer(results[i]);
 		// Escape early if cancel() is called
 		//		if (isCancelled()) break;
 	    }
 	    return totalSize;
 	}
 
-	protected void onProgressUpdate(Integer... progress) {
+	//	protected void onProgressUpdate(Integer... progress) {
 	    //	    setProgressPercent(progress[0]);
+	//	}
+
+	//	protected void onPostExecute(Long result) {
+	//	    showGenericDialog("Uploaded " + result + " bytes");
+	//	}
+    }
+
+  
+    private void disableConnectionReuseIfNecessary() {
+	// Work around pre-Froyo bugs in HTTP connection reuse.
+	if (Integer.parseInt(Build.VERSION.SDK) < Build.VERSION_CODES.FROYO) {
+	    System.setProperty("http.keepAlive", "false");
+   
 	}
-
-	protected void onPostExecute(Long result) {
-	    showGenericDialog("Uploaded " + result + " bytes");
-	}
     }
 
-    private static int writeStream(OutputStream out) {
-	//TODO send out the stream!
-	return 20; // TODO totally fake!
-    }
-
-    private static int readStream(InputStream in) {
-	//TODO read in the stream!
-	return 20; //TODO totally fake!
-    }
-
-    private static int uploadToServer(VideoResult result) {
-	HttpURLConnection urlConnection = null;
+    private static void uploadToServer(VideoResult result) {
+	HttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
+	HttpPost method = new HttpPost("http://192.168.56.2/test.py");
+	method.setEntity(new FileEntity(new File(result.getUrl()), "application/octet-stream"));
 	try {
-	    URL url = new URL(result.getUrl());
-	    urlConnection = (HttpURLConnection) url.openConnection();
-	    urlConnection.setDoOutput(true);
-	    urlConnection.setFixedLengthStreamingMode(result.getVideoSize());
-
-	    OutputStream out = new BufferedOutputStream(urlConnection.getOutputStream());
-	    int bytesWritten = 0;
-	    bytesWritten = writeStream(out);
-
-	    InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-	    readStream(in);
-	    return bytesWritten;
-	}
-	catch (Exception e) {
-	    return 0;
-	}
-	finally {
-	    if (urlConnection != null) {
-		urlConnection.disconnect();
-	    }
+	    HttpResponse response = http.execute(method);
+	} catch (Exception e) {
+	    Log.e("uploadToServer", "exception in uploading: " + e.toString());
 	}
     }
 
