@@ -101,7 +101,7 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
                             pictureView.setVisibility(View.GONE);
                             videoView.setVisibility(View.VISIBLE);
                             String url = vi.getVideoUrl();
-                            Log.i("pictureView.setOnClickListener", "url for video was " + url);
+                            Log.i("VideoAdapter.pictureView.setOnClickListener", "url for video was " + url);
                             videoView.setVideoPath(url);
                             videoView.setMediaController(new MediaController(videoView.getContext()));
                             videoView.start();
@@ -130,9 +130,11 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
             progressDialog.dismiss();
             videoItems = new VideoItem[results.size()];
             int index = 0;
+	    Log.i("ListOfFilesTask", "result from getting list of videos was:");
             for (String v : results) {
+		Log.i("ListOfFilesTask", v);
                 videoItems[index] = VideoItem
-                    .createVideoItem(0, mContext.getString(R.string.server_url) +"downloadvideo/"+ v);
+                    .createVideoItem(0, Constants.VIDEO_SERVER_URL +"downloadvideo/"+ v);
                 index++;
             }
             mVideoAdapter.addAll(videoItems);

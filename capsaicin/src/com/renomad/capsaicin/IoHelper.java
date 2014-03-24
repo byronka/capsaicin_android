@@ -15,12 +15,13 @@ import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import com.renomad.capsaicin.Constants;
 
 public class IoHelper {
 
     public List<String> getListOfVideos() throws Exception {
 	AndroidHttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
-	HttpGet get = new HttpGet("http://192.168.56.2/listofvideos");
+	HttpGet get = new HttpGet(Constants.VIDEO_SERVER_URL + "/listofvideos");
 	List<String> videoList = new ArrayList<String>();
 	BufferedReader r = null;
 	try {
@@ -51,7 +52,7 @@ public class IoHelper {
 
     public void uploadToServer(VideoResult result) {
 	AndroidHttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
-	HttpPost post = new HttpPost("http://192.168.56.2/uploadvideo");
+	HttpPost post = new HttpPost(Constants.VIDEO_SERVER_URL + "uploadvideo");
 	post.addHeader("VIDEO_NAME", "testname");
 	post.setEntity(new FileEntity(new File(result.getUrl()), "application/octet-stream"));
 	try {
