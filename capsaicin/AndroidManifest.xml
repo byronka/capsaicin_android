@@ -37,5 +37,10 @@
 			android:name=".GeneralActivity"
 			android:label="General" >
 		</activity>
+		<activity
+			android:theme="@style/Theme.AppCompat"
+			android:name=".RegisterActivity"
+			android:label="Register" >
+		</activity>
 	</application>
 </manifest>

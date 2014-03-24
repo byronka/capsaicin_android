@@ -37,15 +37,24 @@
         android:hint="@string/password"
         />
 
+    <TextView
+        android:id="@+id/registerlink"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/password"
+        android:layout_marginTop="30dp"
+        android:text="Register"
+        />
+
     <ImageButton
-		android:contentDescription=
-			"@string/go_button_content_description"
+        android:contentDescription="@string/go_button_content_description"
         android:id="@+id/login_go_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:src="@drawable/go_button"
-        android:layout_below="@id/password"
+        android:layout_below="@id/registerlink"
         android:layout_marginTop="40dp"
         android:scaleType="centerCrop"
         android:background="@null" />
