@@ -3,14 +3,44 @@
     android:layout_width="fill_parent"
     android:id="@+id/registerLayout"
     >
+    
+    <EditText
+        android:id="@+id/registerusername"
+        android:layout_centerInParent="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="10dp"
+        style="@style/standardinput"
+        android:hint="@string/username"
+        />
 
-    <TextView
-	android:id="@+id/registration"
-	android:layout_centerInParent="true"
-	android:layout_width="wrap_content"
-	android:layout_height="wrap_content"
-	android:layout_marginTop="30dp"
-	android:text="THIS IS REGISTRATION!"
-	/>
+    <EditText
+        android:id="@+id/registerpassword"
+        android:layout_below="@id/registerusername"
+        android:layout_marginTop="10dp"
+        style="@style/standardinput"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        />
+
+    <EditText
+        android:id="@+id/registerpasswordverify"
+        android:layout_below="@id/registerpassword"
+        android:layout_marginTop="10dp"
+        style="@style/standardinput"
+        android:inputType="textPassword"
+        android:hint="@string/password"
+        />
+
+    <ImageButton
+        android:contentDescription="@string/register_button_content_description"
+        android:id="@+id/register_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/register_button"
+        android:layout_below="@id/registerpasswordverify"
+        android:layout_marginTop="20dp"
+        android:scaleType="centerCrop"
+        android:background="@null" />
 
 </RelativeLayout>

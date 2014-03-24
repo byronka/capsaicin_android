@@ -6,6 +6,7 @@
   <string name="hello_world">Hello world!</string>
   <string name="action_settings">Settings</string>
   <string name="go_button_content_description">Submit button</string>
+  <string name="register_button_content_description">Register button</string>
   <string name="username">Username:</string>
   <string name="password">Password:</string>
   <string name="video_title_text">Jeremy Passion Plays Guitar</string>
