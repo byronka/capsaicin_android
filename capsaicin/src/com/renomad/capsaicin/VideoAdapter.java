@@ -60,7 +60,7 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
             //I added this in solely to figure out why it was crashing when
             //trying to set the click listener on the lines button.
             Log.d("VideoAdapter", "lines_button was null, cannot instantiate");
-        }
+        } else {
 
         lines_button.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -73,7 +73,7 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
                     myContext.startActivity(intent);
                 }
             });
-
+        }
         final VideoView videoView = 
             (VideoView)myVideoItemView.findViewById(R.id.videoView);
         if (videoView != null) {
