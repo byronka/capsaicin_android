@@ -40,15 +40,6 @@ public class IoHelper {
                   "exception in registering user: " + e.toString());
 	    throw e;
 	} finally {
-	    try {
-		if (r != null) {
-		    r.close();
-		}
-	    } catch (Exception e) {
-		Log.e("registeruser", 
-                      "Error in closing the stream wrapping"+ 
-		      " the result from registering users" + e);
-	    }
 	    if (http != null) {
 		http.close();
 	    }
