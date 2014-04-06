@@ -16,8 +16,45 @@ import java.util.ArrayList;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import com.renomad.capsaicin.Constants;
+import org.apache.http.HttpEntity;
+import org.apache.http.entity.StringEntity;
 
 public class IoHelper {
+
+    public void registerUser(String registration) throws Exception {
+	AndroidHttpClient http = 
+            AndroidHttpClient.newInstance("capsaicinAndroidClient");
+	HttpPost post = 
+            new HttpPost(Constants.VIDEO_SERVER_URL + "/registeruser");
+        HttpEntity entity = new StringEntity(registration);
+        post.addHeader(entity.getContentType());
+        post.setEntity(entity);
+	BufferedReader r = null;
+        Log.i("registeruser", "registering to: " + VIDEO_SERVER_URL);
+	try {
+	    final HttpResponse response = http.execute(post);
+            //TODO - BK - 4/6/2014 - finish setting up here.
+            //TODO - BK - see C:\Program Files (x86)\Android_sdk\samples\android-19\legacy\SampleSyncAdapter\src\com\example\android\samplesync\client\NetworkUtilities.java for an example of how to do this.
+	} catch (Exception e) {
+	    Log.e("registeruser", 
+                  "exception in registering user: " + e.toString());
+	    throw e;
+	} finally {
+	    try {
+		if (r != null) {
+		    r.close();
+		}
+	    } catch (Exception e) {
+		Log.e("registeruser", 
+                      "Error in closing the stream wrapping"+ 
+		      " the result from registering users" + e);
+	    }
+	    if (http != null) {
+		http.close();
+	    }
+	}
+	return videoList;        
+    }
 
     public List<String> getListOfVideos() throws Exception {
 	AndroidHttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
@@ -32,7 +69,8 @@ public class IoHelper {
 		videoList.add(line);	 
 	    }   
 	} catch (Exception e) {
-	    Log.e("getListOfVideos", "exception in getting list of videos: " + e.toString());
+	    Log.e("getListOfVideos", 
+                  "exception in getting list of videos: " + e.toString());
 	    throw e;
 	} finally {
 	    try {
@@ -40,7 +78,8 @@ public class IoHelper {
 		    r.close();
 		}
 	    } catch (Exception e) {
-		Log.e("getListOfVideos", "Error in closing the stream wrapping"+ 
+		Log.e("getListOfVideos", 
+                      "Error in closing the stream wrapping"+ 
 		      " the result from getting list of videos " + e);
 	    }
 	    if (http != null) {
@@ -51,10 +90,13 @@ public class IoHelper {
     }
 
     public void uploadToServer(VideoResult result) {
-	AndroidHttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
-	HttpPost post = new HttpPost(Constants.VIDEO_SERVER_URL + "uploadvideo");
+	AndroidHttpClient http = 
+            AndroidHttpClient.newInstance("capsaicinAndroidClient");
+	HttpPost post = 
+            new HttpPost(Constants.VIDEO_SERVER_URL + "uploadvideo");
 	post.addHeader("VIDEO_NAME", "testname");
-	post.setEntity(new FileEntity(new File(result.getUrl()), "application/octet-stream"));
+	post.setEntity(new FileEntity(new File(result.getUrl()), 
+                                      "application/octet-stream"));
 	try {
 	    HttpResponse response = http.execute(post);
 	} catch (Exception e) {
