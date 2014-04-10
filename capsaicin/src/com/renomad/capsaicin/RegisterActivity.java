@@ -1,5 +1,6 @@
 package com.renomad.capsaicin;
 
+import android.os.AsyncTask;
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -8,6 +9,10 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import android.util.Log;
+import java.util.ArrayList;
+import android.app.ProgressDialog;
+import java.util.List;
+import android.content.Context;
 
 public class RegisterActivity extends Activity {
 
@@ -37,11 +42,12 @@ public class RegisterActivity extends Activity {
         //get field values and send them to capsaicintesting.net
         EditText username = (EditText)findViewById(R.id.registerusername);
         EditText password = (EditText)findViewById(R.id.registerpassword);
-        String usernameText = username.getText();
-        String passwordText = password.getText();
+        String usernameText = username.getText().toString();
+        String passwordText = password.getText().toString();
     }
 
-    private class SaveRegistrationTask extends AsyncTask<Void, Void, List<String>> {
+    private class SaveRegistrationTask 
+        extends AsyncTask<Void, Void, List<String>> {
 
         ProgressDialog progressDialog;
         private Context mContext;
@@ -66,7 +72,9 @@ public class RegisterActivity extends Activity {
             try{
                 return new IoHelper().registerUser(mRegistration);
             } catch (Exception e) {
-                new DialogHelper().showGenericDialog("Network error while sending registration", mContext);
+                //TODO - BK - 4/10/2014 - need to tell user
+                //when we cannot talk to network
+                //                new DialogHelper().showGenericDialog("Network error while sending registration", mContext);
             }
             return new ArrayList<String>();
         }

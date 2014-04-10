@@ -21,7 +21,8 @@ import org.apache.http.entity.StringEntity;
 
 public class IoHelper {
 
-    public void registerUser(String registration) throws Exception {
+    public List<String> registerUser(String registration) throws Exception {
+        ArrayList<String> toReturn = new ArrayList<String>();
 	AndroidHttpClient http = 
             AndroidHttpClient.newInstance("capsaicinAndroidClient");
 	HttpPost post = 
@@ -30,7 +31,7 @@ public class IoHelper {
         post.addHeader(entity.getContentType());
         post.setEntity(entity);
 	BufferedReader r = null;
-        Log.i("registeruser", "registering to: " + VIDEO_SERVER_URL);
+        Log.i("registeruser", "registering to: " + Constants.VIDEO_SERVER_URL);
 	try {
 	    final HttpResponse response = http.execute(post);
             //TODO - BK - 4/6/2014 - finish setting up here.
@@ -43,8 +44,9 @@ public class IoHelper {
 	    if (http != null) {
 		http.close();
 	    }
+            return toReturn;
 	}
-	return videoList;        
+
     }
 
     public List<String> getListOfVideos() throws Exception {

@@ -145,7 +145,9 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
             try{
                 return new IoHelper().getListOfVideos();
             } catch (Exception e) {
-                new DialogHelper().showGenericDialog("Network error while loading videos", mContext);
+                //TODO - BK 4/10/2014 - need to inform user when we cannot
+                //talk to the network
+                //                new DialogHelper().showGenericDialog("Network error while loading videos", mContext);
             }
             return new ArrayList<String>();
         }
