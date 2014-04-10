@@ -42,5 +42,10 @@
 			android:name=".RegisterActivity"
 			android:label="Register" >
 		</activity>
+		<activity
+			android:theme="@style/Theme.AppCompat"
+			android:name=".RecordVideoActivity"
+			android:label="Record Video" >
+		</activity>
 	</application>
 </manifest>
