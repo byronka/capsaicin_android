@@ -33,13 +33,9 @@ import java.net.MalformedURLException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import android.util.Log;
-
-
 import java.util.List;
-
 import java.lang.Void;
 import com.renomad.capsaicin.VideoResult;
-
 import android.os.Build;
 
 
