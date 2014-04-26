@@ -88,12 +88,22 @@ public class GeneralActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.record_video:
-            dispatchTakeVideoIntent();
+            //dispatchTakeVideoIntent();
+            openVideoCaptureActivity();
             return true; //TODO - BK - is this line even necessary with the line two lines down?
         }
         return super.onOptionsItemSelected(item);
     }
 
+    private void openVideoCaptureActivity() {
+        //intent to go to record video activity
+        final Intent intent = new Intent();
+        final ComponentName recordVideoActivity = 
+            new ComponentName("com.renomad.capsaicin", 
+                              "com.renomad.capsaicin.RecordVideoActivity");
+        intent.setComponent(recordvideoactivity);
+        startActivity(intent);
+    }
 
     private void dispatchTakeVideoIntent() {
         Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
