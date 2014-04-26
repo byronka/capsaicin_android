@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="server_url">http://capsaicintesting.net/</string>
+  <string name="server_url">http://192.168.56.2/</string>
   <string name="app_name">Capsaicin</string>
   <string name="video_activity_label">Videos</string>
   <string name="hello_world">Hello world!</string>
