@@ -127,38 +127,18 @@ public class CameraHelper {
      * @param type Media type. Can be video or image.
      * @return A file object pointing to the newly created file.
      */
-    public  static File getOutputMediaFile(int type){
+    public static File getOutputMediaFile(File myDir){
         // To be safe, you should check that the SDCard is mounted
         // using Environment.getExternalStorageState() before doing this.
+        Log.i("CameraSample", "about to check state of external storage");
         if (!Environment.getExternalStorageState().equalsIgnoreCase(Environment.MEDIA_MOUNTED)) {
-            return  null;
-        }
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "CameraSample");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (! mediaStorageDir.exists()){
-            if (! mediaStorageDir.mkdirs()) {
-                Log.d("CameraSample", "failed to create directory");
-                return null;
-            }
+            Log.d("CameraSample", "externalstoragestate was " + Environment.getExternalStorageState());
+            return null;
         }
 
         // Create a media file name
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        File mediaFile;
-        if (type == MEDIA_TYPE_IMAGE){
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "IMG_"+ timeStamp + ".jpg");
-        } else if(type == MEDIA_TYPE_VIDEO) {
-            mediaFile = new File(mediaStorageDir.getPath() + File.separator +
-                    "VID_"+ timeStamp + ".mp4");
-        } else {
-            return null;
-        }
+        File mediaFile = new File(myDir + File.separator + "VID_"+ timeStamp + ".mp4");
 
         return mediaFile;
     }
