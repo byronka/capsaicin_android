@@ -1,4 +1,4 @@
-package com.example.android.mediarecorder;
+package com.renomad.capsaicin;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -14,7 +14,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.android.common.media.CameraHelper;
+import com.renomad.CameraHelper;
 
 import java.io.IOException;
 import java.util.List;
