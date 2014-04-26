@@ -154,8 +154,7 @@ public class RecordVideoActivity extends Activity {
         mMediaRecorder.setProfile(profile);
 
         // Step 4: Set output file
-        mMediaRecorder.setOutputFile(CameraHelper.getOutputMediaFile(
-                CameraHelper.MEDIA_TYPE_VIDEO).toString());
+        mMediaRecorder.setOutputFile(CameraHelper.getOutputMediaFile(getExternalFilesDir("videos")).toString());
         // END_INCLUDE (configure_media_recorder)
 
         // Step 5: Prepare configured MediaRecorder
