@@ -17,6 +17,14 @@
     <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/button_send"
+            android:layout_gravity="bottom"
+            android:onClick="onSendClick"
+            android:text="@string/btnSend"/>
+
+    <Button
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/button_capture"
             android:layout_gravity="bottom"
             android:onClick="onCaptureClick"
