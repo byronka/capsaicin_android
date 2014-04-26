@@ -22,4 +22,5 @@
   <string name="share">SHARE</string>
   <string name="record_video">Record video</string>
   <string name="btnCapture">Record</string>
+  <string name="btnSend">Send</string>
 </resources>

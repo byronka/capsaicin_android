@@ -33,6 +33,7 @@ public class RecordVideoActivity extends Activity {
     private boolean isRecording = false;
     private static final String TAG = "Recorder";
     private Button captureButton;
+    private Button sendButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,11 @@ public class RecordVideoActivity extends Activity {
 
         mPreview = (TextureView) findViewById(R.id.surface_view);
         captureButton = (Button) findViewById(R.id.button_capture);
+        sendButton = (Button) findViewById(R.id.button_send);
+    }
+    
+    public void onSendClick(View view) {
+        //do something
     }
 
     /**
