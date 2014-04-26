@@ -14,7 +14,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 
-import com.renomad.CameraHelper;
+import com.renomad.capsaicin.CameraHelper;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +24,7 @@ import java.util.List;
  *  A {@link android.view.TextureView} is used as the camera preview which limits the code to API 14+. This
  *  can be easily replaced with a {@link android.view.SurfaceView} to run on older devices.
  */
-public class MainActivity extends Activity {
+public class RecordVideoActivity extends Activity {
 
     private Camera mCamera;
     private TextureView mPreview;
@@ -37,7 +37,7 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.sample_main);
+        setContentView(R.layout.activity_record_video);
 
         mPreview = (TextureView) findViewById(R.id.surface_view);
         captureButton = (Button) findViewById(R.id.button_capture);
@@ -67,11 +67,7 @@ public class MainActivity extends Activity {
 
         } else {
 
-
-
             new MediaPrepareTask().execute(null, null, null);
-
-
 
         }
     }
@@ -203,7 +199,7 @@ public class MainActivity extends Activity {
         @Override
         protected void onPostExecute(Boolean result) {
             if (!result) {
-                MainActivity.this.finish();
+                RecordVideoActivity.this.finish();
             }
             // inform the user that recording has started
             setCaptureButtonText("Stop");
