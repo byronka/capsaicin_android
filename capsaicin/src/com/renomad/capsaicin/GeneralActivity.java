@@ -1,5 +1,6 @@
 package com.renomad.capsaicin;
 
+import android.content.ComponentName;
 import android.database.Cursor;
 import android.content.Intent;
 import android.content.Context;
@@ -101,7 +102,7 @@ public class GeneralActivity extends ActionBarActivity {
         final ComponentName recordVideoActivity = 
             new ComponentName("com.renomad.capsaicin", 
                               "com.renomad.capsaicin.RecordVideoActivity");
-        intent.setComponent(recordvideoactivity);
+        intent.setComponent(recordVideoActivity);
         startActivity(intent);
     }
 
