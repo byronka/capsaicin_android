@@ -101,8 +101,13 @@ public class GeneralActivity extends ActionBarActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (data == null) {
+            Log.d("GeneralActivity", "data object was null in onActivityResult");
+            return;
+        }
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-            File videoFile = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos"));
+            Log.i("GeneralActivity", "returned data is " + data.getStringExtra("com.renomad.capsaicin.fileuri"));
+            File videoFile = new File(data.getStringExtra("com.renomad.capsaicin.fileuri"));
             new UploadFilesTask().execute(videoFile);
         }
     }

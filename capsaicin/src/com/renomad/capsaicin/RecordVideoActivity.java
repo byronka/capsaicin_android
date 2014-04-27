@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
+import android.content.Intent;
 
 import com.renomad.capsaicin.CameraHelper;
 
@@ -29,6 +30,7 @@ public class RecordVideoActivity extends Activity {
     private Camera mCamera;
     private TextureView mPreview;
     private MediaRecorder mMediaRecorder;
+    private String mMediaFilename;
 
     private boolean isRecording = false;
     private static final String TAG = "Recorder";
@@ -46,8 +48,10 @@ public class RecordVideoActivity extends Activity {
     }
     
     public void onSendClick(View view) {
-        setResult(RESULT_OK);
         Log.i("RecordVideoActivity", "setting result to OK");
+        Intent intent = new Intent();
+        intent.putExtra("com.renomad.capsaicin.fileuri", mMediaFilename);
+        setResult(RESULT_OK, intent);
         finish();
     }
 
@@ -162,7 +166,8 @@ public class RecordVideoActivity extends Activity {
         mMediaRecorder.setProfile(profile);
 
         // Step 4: Set output file
-        mMediaRecorder.setOutputFile(CameraHelper.getOutputMediaFile(getExternalFilesDir("videos")).toString());
+        mMediaFilename = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos")).toString();
+        mMediaRecorder.setOutputFile(mMediaFilename);
         // END_INCLUDE (configure_media_recorder)
 
         // Step 5: Prepare configured MediaRecorder
