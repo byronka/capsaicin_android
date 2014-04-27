@@ -14,6 +14,7 @@ import android.view.TextureView;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
+import android.graphics.SurfaceTexture;
 
 import com.renomad.capsaicin.CameraHelper;
 
@@ -33,9 +34,13 @@ public class RecordVideoActivity extends Activity {
     private String mMediaFilename;
 
     private boolean isRecording = false;
-    private static final String TAG = "Recorder";
+    private static final String TAG = "RecordVideoActivity";
     private Button captureButton;
     private Button sendButton;
+
+    public void onAttachedToWindow() {
+        Log.i(TAG, "we attached to the window");
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +53,7 @@ public class RecordVideoActivity extends Activity {
     }
     
     public void onSendClick(View view) {
-        Log.i("RecordVideoActivity", "setting result to OK");
+        Log.i(TAG, "setting result to OK");
         Intent intent = new Intent();
         intent.putExtra("com.renomad.capsaicin.fileuri", mMediaFilename);
         setResult(RESULT_OK, intent);
@@ -122,28 +127,38 @@ public class RecordVideoActivity extends Activity {
     private boolean prepareVideoRecorder(){
 
         // BEGIN_INCLUDE (configure_preview)
+
+        Log.i(TAG, "getting default camera instance");
         mCamera = CameraHelper.getDefaultCameraInstance();
 
         // We need to make sure that our preview and recording video size are supported by the
         // camera. Query camera to find all the sizes and choose the optimal size given the
         // dimensions of our preview surface.
+        Log.i(TAG, "making sure sizes are supported by camera");
         Camera.Parameters parameters = mCamera.getParameters();
         List<Camera.Size> mSupportedPreviewSizes = parameters.getSupportedPreviewSizes();
         Camera.Size optimalSize = CameraHelper.getOptimalPreviewSize(mSupportedPreviewSizes,
                 mPreview.getWidth(), mPreview.getHeight());
 
+        Log.i(TAG, String.format("mPreview.getWidth: %d, mPreview.getHeight: %d", mPreview.getWidth(), mPreview.getHeight()));
+
         // Use the same size for recording profile.
+        Log.i(TAG, String.format("optimalSize.width: %d, optimalSize.height: %d", optimalSize.width, optimalSize.height));
         CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
         profile.videoFrameWidth = optimalSize.width;
         profile.videoFrameHeight = optimalSize.height;
 
         // likewise for the camera object itself.
+        Log.i(TAG, String.format("profile.videoFrameWidth: %d, profile.videoFrameHeight: %d", profile.videoFrameWidth, profile.videoFrameHeight));
         parameters.setPreviewSize(profile.videoFrameWidth, profile.videoFrameHeight);
         mCamera.setParameters(parameters);
         try {
                 // Requires API level 11+, For backward compatibility use {@link setPreviewDisplay}
                 // with {@link SurfaceView}
-                mCamera.setPreviewTexture(mPreview.getSurfaceTexture());
+                Log.i(TAG, "about to get surface texture");
+                SurfaceTexture sTexture = mPreview.getSurfaceTexture();
+                Log.i(TAG, "surfaceTexture is " + sTexture.toString());
+                mCamera.setPreviewTexture(sTexture);
         } catch (IOException e) {
             Log.e(TAG, "Surface texture is unavailable or unsuitable" + e.getMessage());
             return false;
@@ -155,19 +170,25 @@ public class RecordVideoActivity extends Activity {
         mMediaRecorder = new MediaRecorder();
 
         // Step 1: Unlock and set camera to MediaRecorder
+        Log.i(TAG, "unlocking and setting camera to MediaRecorder");
         mCamera.unlock();
+        Log.i(TAG, String.format("assigning mCamera %s to mMediaRecorder %s", mCamera.toString(), mMediaRecorder.toString()));
         mMediaRecorder.setCamera(mCamera);
 
         // Step 2: Set sources
+        Log.i(TAG, "setting sources...");
         mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.DEFAULT );
         mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
+        Log.i(TAG, "setting a CamcorderProfile");
         mMediaRecorder.setProfile(profile);
 
         // Step 4: Set output file
+        Log.i(TAG, "setting an output file...");
         mMediaFilename = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos")).toString();
         mMediaRecorder.setOutputFile(mMediaFilename);
+        Log.i(TAG, String.format("output file is %s", mMediaFilename));
         // END_INCLUDE (configure_media_recorder)
 
         // Step 5: Prepare configured MediaRecorder
@@ -195,12 +216,14 @@ public class RecordVideoActivity extends Activity {
         protected Boolean doInBackground(Void... voids) {
             // initialize video camera
             if (prepareVideoRecorder()) {
+                Log.i("MediaPrepareTask", "camera is available and unlocked, MediaRecorder is prepared");
                 // Camera is available and unlocked, MediaRecorder is prepared,
                 // now you can start recording
                 mMediaRecorder.start();
 
                 isRecording = true;
             } else {
+                Log.i("MediaPrepareTask", "prepare didn't work, release the camera");
                 // prepare didn't work, release the camera
                 releaseMediaRecorder();
                 return false;
