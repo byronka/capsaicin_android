@@ -36,7 +36,6 @@ import java.net.URL;
 import android.util.Log;
 import java.util.List;
 import java.lang.Void;
-import com.renomad.capsaicin.VideoResult;
 import android.os.Build;
 
 
@@ -103,33 +102,16 @@ public class GeneralActivity extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-
-            File videoPathFile = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos"));
-            Uri videoUri = Uri.fromFile(videoPathFile);
-            String videoPath = videoPathFile.getAbsolutePath();
-            Log.i("onActivityResult", "got video back from camera at uri: " + videoUri);
-            int videoSize = getSizeOfVideo(videoUri);
-            Log.i("onActivityResult", "size of video is: " + videoSize);
-            VideoResult vResult = new VideoResult(videoPath, videoSize);
-            new UploadFilesTask().execute(vResult);
+            File videoFile = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos"));
+            new UploadFilesTask().execute(videoFile);
         }
-    }
-
-    private int getSizeOfVideo(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.SIZE };
-        CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = cl.loadInBackground();
-        int sizeIndex = cursor. getColumnIndexOrThrow(MediaStore.Images.Media.SIZE);
-        cursor.moveToFirst();
-        String sizeString = cursor.getString(sizeIndex);
-        return Integer.parseInt(sizeString);
     }
 
     /**
      *   TODO - BK - 3/10/2014 - need to add a progress bar dialog for uploading?
      */
-    private class UploadFilesTask extends AsyncTask<VideoResult, Integer, Long> {
-        protected Long doInBackground(VideoResult... results) {
+    private class UploadFilesTask extends AsyncTask<File, Integer, Long> {
+        protected Long doInBackground(File... results) {
             int count = results.length;
             long totalSize = 0;
             for (int i = 0; i < count; i++) {

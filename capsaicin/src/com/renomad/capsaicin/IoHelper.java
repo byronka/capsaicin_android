@@ -10,7 +10,6 @@ import android.util.Log;
 import java.io.File;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpEntity;
-import com.renomad.capsaicin.VideoResult;
 import java.util.List;
 import java.util.ArrayList;
 import java.io.BufferedReader;
@@ -82,14 +81,11 @@ public class IoHelper {
 	return videoList;
     }
 
-    public void uploadToServer(VideoResult result) {
-	AndroidHttpClient http = 
-            AndroidHttpClient.newInstance("capsaicinAndroidClient");
-	HttpPost post = 
-            new HttpPost(Constants.VIDEO_SERVER_URL + "uploadvideo");
+    public void uploadToServer(File result) {
+	AndroidHttpClient http = AndroidHttpClient.newInstance("capsaicinAndroidClient");
+	HttpPost post = new HttpPost(Constants.VIDEO_SERVER_URL + "uploadvideo");
 	post.addHeader("VIDEO_NAME", "testname");
-	post.setEntity(new FileEntity(new File(result.getUrl()), 
-                                      "application/octet-stream"));
+	post.setEntity(new FileEntity(result, "application/octet-stream"));
 	try {
 	    HttpResponse response = http.execute(post);
 	} catch (Exception e) {
