@@ -46,7 +46,7 @@ public class RecordVideoActivity extends Activity {
     }
     
     public void onSendClick(View view) {
-        //do something
+        finish(); 
     }
 
     /**

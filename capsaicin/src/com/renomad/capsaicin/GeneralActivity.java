@@ -89,37 +89,25 @@ public class GeneralActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         case R.id.record_video:
-            //dispatchTakeVideoIntent();
-            openVideoCaptureActivity();
+            dispatchTakeVideoIntent();
             return true; //TODO - BK - is this line even necessary with the line two lines down?
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openVideoCaptureActivity() {
-        //intent to go to record video activity
-        final Intent intent = new Intent();
-        final ComponentName recordVideoActivity = 
-            new ComponentName("com.renomad.capsaicin", 
-                              "com.renomad.capsaicin.RecordVideoActivity");
-        intent.setComponent(recordVideoActivity);
-        startActivity(intent);
-    }
-
     private void dispatchTakeVideoIntent() {
-        Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        if (takeVideoIntent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(takeVideoIntent, REQUEST_VIDEO_CAPTURE);
-        }
+        Intent intent = new Intent(this, RecordVideoActivity.class);
+        startActivityForResult(intent, REQUEST_VIDEO_CAPTURE);
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_VIDEO_CAPTURE && resultCode == RESULT_OK) {
-            Uri videoUri = data.getData();
+
+            File videoPathFile = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos"));
+            Uri videoUri = Uri.fromFile(videoPathFile);
+            String videoPath = videoPathFile.getAbsolutePath();
             Log.i("onActivityResult", "got video back from camera at uri: " + videoUri);
-            String videoPath = getRealPathFromURI(videoUri);
-            Log.i("onActivityResult", "converted video path was: " + videoPath);
             int videoSize = getSizeOfVideo(videoUri);
             Log.i("onActivityResult", "size of video is: " + videoSize);
             VideoResult vResult = new VideoResult(videoPath, videoSize);
@@ -135,15 +123,6 @@ public class GeneralActivity extends ActionBarActivity {
         cursor.moveToFirst();
         String sizeString = cursor.getString(sizeIndex);
         return Integer.parseInt(sizeString);
-    }
-
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] proj = { MediaStore.Images.Media.DATA};
-        CursorLoader cl = new CursorLoader(this, contentUri, proj, null, null, null);
-        Cursor cursor = cl.loadInBackground();
-        int dataIndex = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-        cursor.moveToFirst();
-        return cursor.getString(dataIndex);
     }
 
     /**
