@@ -121,6 +121,9 @@ public class GeneralActivity extends ActionBarActivity {
             long totalSize = 0;
             for (int i = 0; i < count; i++) {
                 new IoHelper().uploadToServer(results[i]);
+                if (!results[i].delete()) {
+                    Log.e("GeneralActivity", "delete failed on the file we just sent");
+                }
             }
             return totalSize;
         }
