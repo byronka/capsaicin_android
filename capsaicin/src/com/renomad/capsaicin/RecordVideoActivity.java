@@ -10,28 +10,21 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
-import android.view.TextureView;
+import android.view.SurfaceView;
 import android.view.View;
 import android.widget.Button;
 import android.content.Intent;
-import android.graphics.SurfaceTexture;
-
-import com.renomad.capsaicin.CameraHelper;
-
+import android.view.SurfaceHolder;
 import java.io.IOException;
 import java.util.List;
 
-/**
- *  This activity uses the camera/camcorder as the A/V source for the {@link android.media.MediaRecorder} API.
- *  A {@link android.view.TextureView} is used as the camera preview which limits the code to API 14+. This
- *  can be easily replaced with a {@link android.view.SurfaceView} to run on older devices.
- */
 public class RecordVideoActivity extends Activity {
 
     private Camera mCamera;
-    private TextureView mPreview;
+    private SurfaceView mPreview;
     private MediaRecorder mMediaRecorder;
     private String mMediaFilename;
+    private CamcorderProfile mProfile;
 
     private boolean isRecording = false;
     private static final String TAG = "RecordVideoActivity";
@@ -47,11 +40,26 @@ public class RecordVideoActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_record_video);
 
-        mPreview = (TextureView) findViewById(R.id.surface_view);
+        mPreview = (SurfaceView) findViewById(R.id.preview);
         captureButton = (Button) findViewById(R.id.button_capture);
         sendButton = (Button) findViewById(R.id.button_send);
+        mCamera = getCameraInstance();
+        configure_preview(mCamera);
     }
     
+    /** A safe way to get an instance of the Camera object. */
+    public static Camera getCameraInstance(){
+        Camera c = null;
+        try {
+            c = Camera.open(); // attempt to get a Camera instance
+        }
+        catch (Exception e){
+            DialogHelper.showGenericDialog("Camera not available", this);
+            // Camera is not available (in use or does not exist)
+        }
+        return c; // returns null if camera is unavailable
+    } 
+
     public void onSendClick(View view) {
         Log.i(TAG, "setting result to OK");
         Intent intent = new Intent();
@@ -123,48 +131,13 @@ public class RecordVideoActivity extends Activity {
         }
     }
 
+    
+    private void configure_preview(Camera mCamera) {
+        new CameraPreview(this, mCamera);
+    }
+
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     private boolean prepareVideoRecorder(){
-
-        // BEGIN_INCLUDE (configure_preview)
-
-        Log.i(TAG, "getting default camera instance");
-        mCamera = CameraHelper.getDefaultCameraInstance();
-
-        // We need to make sure that our preview and recording video size are supported by the
-        // camera. Query camera to find all the sizes and choose the optimal size given the
-        // dimensions of our preview surface.
-        Log.i(TAG, "making sure sizes are supported by camera");
-        Camera.Parameters parameters = mCamera.getParameters();
-        List<Camera.Size> mSupportedPreviewSizes = parameters.getSupportedPreviewSizes();
-        Camera.Size optimalSize = CameraHelper.getOptimalPreviewSize(mSupportedPreviewSizes,
-                mPreview.getWidth(), mPreview.getHeight());
-
-        Log.i(TAG, String.format("mPreview.getWidth: %d, mPreview.getHeight: %d", mPreview.getWidth(), mPreview.getHeight()));
-
-        // Use the same size for recording profile.
-        Log.i(TAG, String.format("optimalSize.width: %d, optimalSize.height: %d", optimalSize.width, optimalSize.height));
-        CamcorderProfile profile = CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH);
-        profile.videoFrameWidth = optimalSize.width;
-        profile.videoFrameHeight = optimalSize.height;
-
-        // likewise for the camera object itself.
-        Log.i(TAG, String.format("profile.videoFrameWidth: %d, profile.videoFrameHeight: %d", profile.videoFrameWidth, profile.videoFrameHeight));
-        parameters.setPreviewSize(profile.videoFrameWidth, profile.videoFrameHeight);
-        mCamera.setParameters(parameters);
-        try {
-                // Requires API level 11+, For backward compatibility use {@link setPreviewDisplay}
-                // with {@link SurfaceView}
-                Log.i(TAG, "about to get surface texture");
-                SurfaceTexture sTexture = mPreview.getSurfaceTexture();
-                Log.i(TAG, "surfaceTexture is " + sTexture.toString());
-                mCamera.setPreviewTexture(sTexture);
-        } catch (IOException e) {
-            Log.e(TAG, "Surface texture is unavailable or unsuitable" + e.getMessage());
-            return false;
-        }
-        // END_INCLUDE (configure_preview)
-
 
         // BEGIN_INCLUDE (configure_media_recorder)
         mMediaRecorder = new MediaRecorder();
@@ -182,7 +155,7 @@ public class RecordVideoActivity extends Activity {
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
         Log.i(TAG, "setting a CamcorderProfile");
-        mMediaRecorder.setProfile(profile);
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
 
         // Step 4: Set output file
         Log.i(TAG, "setting an output file...");
