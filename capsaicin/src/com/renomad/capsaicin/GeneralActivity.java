@@ -86,15 +86,26 @@ public class GeneralActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-        case R.id.record_video:
-            dispatchTakeVideoIntent();
-            return true; //TODO - BK - is this line even necessary with the line two lines down?
+        if (hasVideoAvailable()) {
+            goToVideoRecorder();
+        } else {
+            DialogHelper.showGenericDialog("Cannot record video; no capability on device", this);
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void dispatchTakeVideoIntent() {
+    private boolean hasVideoAvailable() {
+        /** Check if this device has a camera */
+        if (getPackageManager().hasSystemFeature(PackageManager.FEATURE_CAMERA)){
+            // this device has a camera
+            return true;
+        } else {
+            // no camera on this device
+            return false;
+        }
+    }
+
+    private void goToVideoRecorder() {
         Intent intent = new Intent(this, RecordVideoActivity.class);
         startActivityForResult(intent, REQUEST_VIDEO_CAPTURE);
     }
