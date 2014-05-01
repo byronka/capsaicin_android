@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class DialogHelper {
 
-    public void showGenericDialog(String text, Context context) {
+    public static void showGenericDialog(String text, Context context) {
 	AlertDialog.Builder builder = new AlertDialog.Builder(context);
 	builder.setMessage(text)
 	    .setTitle("Alert");
