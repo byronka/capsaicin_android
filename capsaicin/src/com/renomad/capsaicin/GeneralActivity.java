@@ -1,5 +1,6 @@
 package com.renomad.capsaicin;
 
+import android.content.pm.PackageManager;
 import android.content.ComponentName;
 import android.database.Cursor;
 import android.content.Intent;
