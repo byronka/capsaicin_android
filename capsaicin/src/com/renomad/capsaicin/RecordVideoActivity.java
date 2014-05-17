@@ -252,6 +252,7 @@ public class RecordVideoActivity extends Activity {
 
         // Step 1: Unlock and set camera to MediaRecorder
         Log.i(TAG, "unlocking and setting camera to MediaRecorder");
+        mCamera.stopPreview();
         mCamera.unlock();
         Log.i(TAG, String.format("assigning mCamera %s to mMediaRecorder %s",
                                  mCamera.toString(), mMediaRecorder.toString()));
