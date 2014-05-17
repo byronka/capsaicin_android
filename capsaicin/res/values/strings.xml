@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <string name="server_url">http://192.168.56.2/</string>
+  <string name="server_url">http://capsaicintesting.net/</string>
   <string name="app_name">Capsaicin</string>
   <string name="video_activity_label">Videos</string>
   <string name="hello_world">Hello world!</string>
@@ -23,4 +23,7 @@
   <string name="record_video">Record video</string>
   <string name="btnCapture">Record</string>
   <string name="btnSend">Send</string>
+<string name="camera_alert">Device has only one camera!</string>
+<string name="density_title">Density: Unknown Screen</string>
+<string name="switch_cam">Switch Camera</string>
 </resources>

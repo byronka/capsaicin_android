@@ -87,53 +87,53 @@ public class RecordVideoActivity extends Activity {
         }
     }
 
-    //    @Override
-    //    public boolean onCreateOptionsMenu(Menu menu) {
-    //
-    //        // Inflate our menu which can gather user input for switching camera
-    //        MenuInflater inflater = getMenuInflater();
-    //        inflater.inflate(R.menu.camera_menu, menu);
-    //        return true;
-    //    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
-    //public boolean onOptionsItemSelected(MenuItem item) {
-    //    // Handle item selection
-    //    switch (item.getItemId()) {
-    //    case R.id.switch_cam:
-    //        // check for availability of multiple cameras
-    //        if (numberOfCameras == 1) {
-    //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    //            builder.setMessage(this.getString(R.string.camera_alert))
-    //                   .setNeutralButton("Close", null);
-    //            AlertDialog alert = builder.create();
-    //            alert.show();
-    //            return true;
-    //        }
+        // Inflate our menu which can gather user input for switching camera
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.camera_menu, menu);
+        return true;
+    }
 
-    //        // OK, we have multiple cameras.
-    //        // Release this camera -> cameraCurrentlyLocked
-    //        if (mCamera != null) {
-    //            mCamera.stopPreview();
-    //            mPreview.setCamera(null);
-    //            mCamera.release();
-    //            mCamera = null;
-    //        }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+        case R.id.switch_cam:
+            // check for availability of multiple cameras
+            if (numberOfCameras == 1) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage(this.getString(R.string.camera_alert))
+                       .setNeutralButton("Close", null);
+                AlertDialog alert = builder.create();
+                alert.show();
+                return true;
+            }
 
-    //        // Acquire the next camera and request Preview to reconfigure
-    //        // parameters.
-    //        mCamera = Camera
-    //                .open((cameraCurrentlyLocked + 1) % numberOfCameras);
-    //        cameraCurrentlyLocked = (cameraCurrentlyLocked + 1)
-    //                % numberOfCameras;
-    //        mPreview.switchCamera(mCamera);
+            // OK, we have multiple cameras.
+            // Release this camera -> cameraCurrentlyLocked
+            if (mCamera != null) {
+                mCamera.stopPreview();
+                mPreview.setCamera(null);
+                mCamera.release();
+                mCamera = null;
+            }
 
-    //        // Start the preview
-    //        mCamera.startPreview();
-    //        return true;
-    //    default:
-    //        return super.onOptionsItemSelected(item);
-    //    }
-    //}
+            // Acquire the next camera and request Preview to reconfigure
+            // parameters.
+            mCamera = Camera
+                    .open((cameraCurrentlyLocked + 1) % numberOfCameras);
+            cameraCurrentlyLocked = (cameraCurrentlyLocked + 1)
+                    % numberOfCameras;
+            mPreview.switchCamera(mCamera);
+
+            // Start the preview
+            mCamera.startPreview();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
+        }
+    }
 }
 
 // ----------------------------------------------------------------------
