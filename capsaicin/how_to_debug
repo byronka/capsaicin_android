@@ -1,0 +1,38 @@
+To debug from the command line:
+
+Dump the stack trace
+
+    To obtain a stack dump from emulator, you can log in with adb
+    shell, use ps to find the process you want, and then kill -3. The
+    stack trace appears in the log file
+
+adb jdwp <--- this shows the open jdwp processes
+adb forward tcp:7999 jdwp:5472 <--- this forwards local ports to that process
+
+//following kicks off a socket connection to the debugger on the local port
+jdb -sourcepath src -connect com.sun.jdi.SocketAttach:hostname=localhost,port=7999
+
+Now, for actually debugging:
+Grab a thread by typing threads, then thread 0x432849237 (whatever)
+stop in com.renomad.capsaicin.CameraPreview (will stop on the constructor)
+stop in com.renomad.capsaicin.CameraPreview.doSomething (will stop on doSomething )
+
+in order see where you are, type where
+
+Now in the application, go to where that code executes.  When you hit that method, the debugger
+will halt you there and show something like 
+Step completed: "thread=<1> main", com.renomad.capsaicin.RecordVideoActivity.onCreate(), line=43 bci=3
+43            setContentView(R.layout.activity_record_video);
+
+
+
+and so see the value of something, type
+
+eval <expression>
+or 
+dump <expr>
+
+to see local values, type locals
+
+to move along, type step to go instruction by instruciton, next to go by source code line.
+to go up to the calling method, type step up
