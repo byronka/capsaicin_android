@@ -11,9 +11,11 @@ import android.hardware.Camera.Size;
 import android.hardware.Camera;
 import android.media.CamcorderProfile;
 import android.media.MediaRecorder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,18 +24,32 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import java.io.IOException;
 import java.util.List;
-
+import java.util.Date;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import com.renomad.capsaicin.CameraPreview;
 
 public class RecordVideoActivity extends Activity {
-    private Preview mPreview;
-    Camera mCamera;
-    int numberOfCameras;
-    int cameraCurrentlyLocked;
+
+    public static final int MEDIA_TYPE_VIDEO = 2;
+    private CameraPreview mPreview;
+    private Camera mCamera;
+    private MediaRecorder mMediaRecorder;
+    private int numberOfCameras;
+    private int cameraCurrentlyLocked;
+
+    private String mMediaFilename;
+    private boolean isRecording = false;
+
+    private static final String TAG = "RecordVideoActivity";
+    private Button captureButton;
+    private Button sendButton;
 
     // The first rear facing camera
     int defaultCameraId;
@@ -43,13 +59,16 @@ public class RecordVideoActivity extends Activity {
         super.onCreate(savedInstanceState);
 
         // Hide the window title.
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_NO_TITLE);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        
+        mPreview = new CameraPreview(this);
+        setContentView(R.layout.activity_record_video);
+        ((FrameLayout)findViewById(R.id.previewplaceholder)).addView(mPreview);
 
-        // Create a RelativeLayout container that will hold a SurfaceView,
-        // and set it as the content of our activity.
-        mPreview = new Preview(this);
-        setContentView(mPreview);
+        // wire up the buttons
+        captureButton = (Button) findViewById(R.id.button_capture);
+        sendButton = (Button) findViewById(R.id.button_send);
 
         // Find the total number of cameras available
         numberOfCameras = Camera.getNumberOfCameras();
@@ -77,220 +96,239 @@ public class RecordVideoActivity extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-
+        releaseMediaRecorder();
         // Because the Camera object is a shared resource, it's very
         // important to release it when the activity is paused.
-        if (mCamera != null) {
+        releaseCamera();
+    }   
+
+    private void releaseCamera(){
+        if (mCamera != null){
+            // release the camera for other applications
             mPreview.setCamera(null);
             mCamera.release();
             mCamera = null;
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
 
-        // Inflate our menu which can gather user input for switching camera
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.camera_menu, menu);
+    //@Override
+    //public boolean onCreateOptionsMenu(Menu menu) {
+
+    //    // Inflate our menu which can gather user input for switching camera
+    //    MenuInflater inflater = getMenuInflater();
+    //    inflater.inflate(R.menu.camera_menu, menu);
+    //    return true;
+    //}
+
+    //public boolean onOptionsItemSelected(MenuItem item) {
+    //    // Handle item selection
+    //    switch (item.getItemId()) {
+    //    case R.id.switch_cam:
+    //        // check for availability of multiple cameras
+    //        if (numberOfCameras == 1) {
+    //            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    //            builder.setMessage(this.getString(R.string.camera_alert))
+    //                   .setNeutralButton("Close", null);
+    //            AlertDialog alert = builder.create();
+    //            alert.show();
+    //            return true;
+    //        }
+
+    //        // OK, we have multiple cameras.
+    //        // Release this camera -> cameraCurrentlyLocked
+    //        if (mCamera != null) {
+    //            mCamera.stopPreview();
+    //            mPreview.setCamera(null);
+    //            mCamera.release();
+    //            mCamera = null;
+    //        }
+
+    //        // Acquire the next camera and request Preview to reconfigure
+    //        // parameters.
+    //        mCamera = Camera
+    //                .open((cameraCurrentlyLocked + 1) % numberOfCameras);
+    //        cameraCurrentlyLocked = (cameraCurrentlyLocked + 1)
+    //                % numberOfCameras;
+    //        mPreview.switchCamera(mCamera);
+
+    //        // Start the preview
+    //        mCamera.startPreview();
+    //        return true;
+    //    default:
+    //        return super.onOptionsItemSelected(item);
+    //    }
+    //}
+    
+    //The following section is from the old file
+    //OLD SECTION BEGINS
+    //OLD SECTION BEGINS
+    //OLD SECTION BEGINS
+
+    public void onSendClick(View view) {
+        Log.i(TAG, "setting result to OK");
+        Intent intent = new Intent();
+        intent.putExtra("com.renomad.capsaicin.fileuri", mMediaFilename);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+    
+    /**
+     * The capture button controls all user interaction. When recording, the button click
+     * stops recording, releases {@link android.media.MediaRecorder} 
+     * and {@link android.hardware.Camera}. When not recording,
+     * it prepares the {@link android.media.MediaRecorder} and starts recording.
+     *
+     * @param view the view generating the event.
+     */
+    public void onCaptureClick(View view) {
+        if (isRecording) {
+            // stop recording and release camera
+            mMediaRecorder.stop();  // stop the recording
+            releaseMediaRecorder(); // release the MediaRecorder object
+            mCamera.lock();         // take camera access back from MediaRecorder
+            // inform the user that recording has stopped
+            setCaptureButtonText("Capture");
+            isRecording = false;
+            releaseCamera();
+        } else {
+            new MediaPrepareTask().execute(null, null, null);
+        }
+    }
+
+    private void setCaptureButtonText(String title) {
+        captureButton.setText(title);
+    }
+
+    private void releaseMediaRecorder(){
+        if (mMediaRecorder != null) {
+            // clear recorder configuration
+            mMediaRecorder.reset();
+            // release the recorder object
+            mMediaRecorder.release();
+            mMediaRecorder = null;
+            // Lock camera for later use i.e taking it back from MediaRecorder.
+            // MediaRecorder doesn't need it anymore and we will release it if the activity pauses.
+            mCamera.lock();
+        }
+    }
+    
+    /** Create a file Uri for saving an image or video */
+    private static Uri getOutputMediaFileUri(int type){
+          return Uri.fromFile(getOutputMediaFile(type));
+    }
+    
+    /** Create a File for saving an image or video */
+    private static File getOutputMediaFile(int type){
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                                                        Environment.DIRECTORY_PICTURES), "MyCameraApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (! mediaStorageDir.exists()){
+            if (! mediaStorageDir.mkdirs()){
+                Log.d("MyCameraApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        File mediaFile;
+        mediaFile = new File(mediaStorageDir.getPath() + File.separator + "VID_"+ timeStamp + ".mp4");
+
+        return mediaFile;
+    }
+
+    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
+    private boolean prepareVideoRecorder(){
+
+        // BEGIN_INCLUDE (configure_media_recorder)
+        mMediaRecorder = new MediaRecorder();
+
+        // Step 1: Unlock and set camera to MediaRecorder
+        Log.i(TAG, "unlocking and setting camera to MediaRecorder");
+        mCamera.unlock();
+        Log.i(TAG, String.format("assigning mCamera %s to mMediaRecorder %s",
+                                 mCamera.toString(), mMediaRecorder.toString()));
+        mMediaRecorder.setCamera(mCamera);
+
+        // Step 2: Set sources
+        Log.i(TAG, "setting sources...");
+        mMediaRecorder.setAudioSource(MediaRecorder.AudioSource.CAMCORDER );
+        mMediaRecorder.setVideoSource(MediaRecorder.VideoSource.CAMERA);
+
+        // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
+        Log.i(TAG, "setting a CamcorderProfile");
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+
+        // Step 4: Set output file
+        Log.i(TAG, "setting an output file...");
+        //mMediaFilename = CameraHelper.getOutputMediaFile(getExternalFilesDir("videos")).toString();
+        mMediaFilename = getOutputMediaFile(MEDIA_TYPE_VIDEO).toString();
+        mMediaRecorder.setOutputFile(mMediaFilename);
+        
+        Log.i(TAG, String.format("output file is %s", mMediaFilename));
+
+        // Step 4.5: set preview display for camcorder:
+        Log.i(TAG, "setting preview display for camcorder");
+        mMediaRecorder.setPreviewDisplay(mPreview.getSurface());
+
+        // Step 5: Prepare configured MediaRecorder
+        try {
+            mMediaRecorder.prepare();
+        } catch (IllegalStateException e) {
+            Log.d(TAG, "IllegalStateException preparing MediaRecorder: " + e.getMessage());
+            releaseMediaRecorder();
+            return false;
+        } catch (IOException e) {
+            Log.d(TAG, "IOException preparing MediaRecorder: " + e.getMessage());
+            releaseMediaRecorder();
+            return false;
+        }
         return true;
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-        case R.id.switch_cam:
-            // check for availability of multiple cameras
-            if (numberOfCameras == 1) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setMessage(this.getString(R.string.camera_alert))
-                       .setNeutralButton("Close", null);
-                AlertDialog alert = builder.create();
-                alert.show();
-                return true;
-            }
+    /**
+     * Asynchronous task for preparing the {@link android.media.MediaRecorder} 
+     * since it's a long blocking
+     * operation.
+     */
+    class MediaPrepareTask extends AsyncTask<Void, Void, Boolean> {
 
-            // OK, we have multiple cameras.
-            // Release this camera -> cameraCurrentlyLocked
-            if (mCamera != null) {
-                mCamera.stopPreview();
-                mPreview.setCamera(null);
-                mCamera.release();
-                mCamera = null;
-            }
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            // initialize video camera
+            if (prepareVideoRecorder()) {
+                Log.i("MediaPrepareTask", 
+                      "camera is available and unlocked, MediaRecorder is prepared");
+                // Camera is available and unlocked, MediaRecorder is prepared,
+                // now you can start recording
+                mMediaRecorder.start();
 
-            // Acquire the next camera and request Preview to reconfigure
-            // parameters.
-            mCamera = Camera
-                    .open((cameraCurrentlyLocked + 1) % numberOfCameras);
-            cameraCurrentlyLocked = (cameraCurrentlyLocked + 1)
-                    % numberOfCameras;
-            mPreview.switchCamera(mCamera);
-
-            // Start the preview
-            mCamera.startPreview();
-            return true;
-        default:
-            return super.onOptionsItemSelected(item);
-        }
-    }
-}
-
-// ----------------------------------------------------------------------
-
-/**
- * A simple wrapper around a Camera and a SurfaceView that renders a centered preview of the Camera
- * to the surface. We need to center the SurfaceView because not all devices have cameras that
- * support preview sizes at the same aspect ratio as the device's display.
- */
-class Preview extends ViewGroup implements SurfaceHolder.Callback {
-    private final String TAG = "Preview";
-
-    SurfaceView mSurfaceView;
-    SurfaceHolder mHolder;
-    Size mPreviewSize;
-    List<Size> mSupportedPreviewSizes;
-    Camera mCamera;
-
-    Preview(Context context) {
-        super(context);
-
-        mSurfaceView = new SurfaceView(context);
-        addView(mSurfaceView);
-
-        // Install a SurfaceHolder.Callback so we get notified when the
-        // underlying surface is created and destroyed.
-        mHolder = mSurfaceView.getHolder();
-        mHolder.addCallback(this);
-        mHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
-    }
-
-    public void setCamera(Camera camera) {
-        mCamera = camera;
-        if (mCamera != null) {
-            mSupportedPreviewSizes = mCamera.getParameters().getSupportedPreviewSizes();
-            requestLayout();
-        }
-    }
-
-    public void switchCamera(Camera camera) {
-       setCamera(camera);
-       try {
-           camera.setPreviewDisplay(mHolder);
-       } catch (IOException exception) {
-           Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
-       }
-       Camera.Parameters parameters = camera.getParameters();
-       parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-       requestLayout();
-
-       camera.setParameters(parameters);
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        // We purposely disregard child measurements because act as a
-        // wrapper to a SurfaceView that centers the camera preview instead
-        // of stretching it.
-        final int width = resolveSize(getSuggestedMinimumWidth(), widthMeasureSpec);
-        final int height = resolveSize(getSuggestedMinimumHeight(), heightMeasureSpec);
-        setMeasuredDimension(width, height);
-
-        if (mSupportedPreviewSizes != null) {
-            mPreviewSize = getOptimalPreviewSize(mSupportedPreviewSizes, width, height);
-        }
-    }
-
-    @Override
-    protected void onLayout(boolean changed, int l, int t, int r, int b) {
-        if (changed && getChildCount() > 0) {
-            final View child = getChildAt(0);
-
-            final int width = r - l;
-            final int height = b - t;
-
-            int previewWidth = width;
-            int previewHeight = height;
-            if (mPreviewSize != null) {
-                previewWidth = mPreviewSize.width;
-                previewHeight = mPreviewSize.height;
-            }
-
-            // Center the child SurfaceView within the parent.
-            if (width * previewHeight > height * previewWidth) {
-                final int scaledChildWidth = previewWidth * height / previewHeight;
-                child.layout((width - scaledChildWidth) / 2, 0,
-                        (width + scaledChildWidth) / 2, height);
+                isRecording = true;
             } else {
-                final int scaledChildHeight = previewHeight * width / previewWidth;
-                child.layout(0, (height - scaledChildHeight) / 2,
-                        width, (height + scaledChildHeight) / 2);
+                Log.i("MediaPrepareTask", "prepare didn't work, release the camera");
+                // prepare didn't work, release the camera
+                releaseMediaRecorder();
+                return false;
             }
+            return true;
         }
-    }
 
-    public void surfaceCreated(SurfaceHolder holder) {
-        // The Surface has been created, acquire the camera and tell it where
-        // to draw.
-        try {
-            if (mCamera != null) {
-                mCamera.setPreviewDisplay(holder);
+        @Override
+        protected void onPostExecute(Boolean result) {
+            if (!result) {
+                RecordVideoActivity.this.finish();
             }
-        } catch (IOException exception) {
-            Log.e(TAG, "IOException caused by setPreviewDisplay()", exception);
+            // inform the user that recording has started
+            setCaptureButtonText("Stop");
+
         }
     }
-
-    public void surfaceDestroyed(SurfaceHolder holder) {
-        // Surface will be destroyed when we return, so stop the preview.
-        if (mCamera != null) {
-            mCamera.stopPreview();
-        }
-    }
-
-
-    private Size getOptimalPreviewSize(List<Size> sizes, int w, int h) {
-        final double ASPECT_TOLERANCE = 0.1;
-        double targetRatio = (double) w / h;
-        if (sizes == null) return null;
-
-        Size optimalSize = null;
-        double minDiff = Double.MAX_VALUE;
-
-        int targetHeight = h;
-
-        // Try to find an size match aspect ratio and size
-        for (Size size : sizes) {
-            double ratio = (double) size.width / size.height;
-            if (Math.abs(ratio - targetRatio) > ASPECT_TOLERANCE) continue;
-            if (Math.abs(size.height - targetHeight) < minDiff) {
-                optimalSize = size;
-                minDiff = Math.abs(size.height - targetHeight);
-            }
-        }
-
-        // Cannot find the one match the aspect ratio, ignore the requirement
-        if (optimalSize == null) {
-            minDiff = Double.MAX_VALUE;
-            for (Size size : sizes) {
-                if (Math.abs(size.height - targetHeight) < minDiff) {
-                    optimalSize = size;
-                    minDiff = Math.abs(size.height - targetHeight);
-                }
-            }
-        }
-        return optimalSize;
-    }
-
-    public void surfaceChanged(SurfaceHolder holder, int format, int w, int h) {
-        // Now that the size is known, set up the camera parameters and begin
-        // the preview.
-        Camera.Parameters parameters = mCamera.getParameters();
-        parameters.setPreviewSize(mPreviewSize.width, mPreviewSize.height);
-        requestLayout();
-
-        mCamera.setParameters(parameters);
-        mCamera.startPreview();
-    }
-
 }
+
