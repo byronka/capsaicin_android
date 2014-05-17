@@ -1,0 +1,7 @@
+From the command line, in the capsaicin_test project, run the following:
+
+ant debug
+ant instrument
+
+ant installi
+ant test
