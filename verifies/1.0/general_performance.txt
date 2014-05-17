@@ -3,4 +3,4 @@ Verify it is possible to scroll down a tab quickly.
 Verify it is possible to start and stop a video.
 Verify it is possible to scroll down while a video is running, and the video should automatically stop.
 Verify it is possible to switch tabs while video running, and video should stop.
-
+make sure that if we are trying to connect to the server, timeout happens fast.
