@@ -17,7 +17,7 @@ Grab a thread by typing threads, then thread 0x432849237 (whatever)
 stop in com.renomad.capsaicin.CameraPreview (will stop on the constructor)
 stop in com.renomad.capsaicin.CameraPreview.doSomething (will stop on doSomething )
 
-in order see where you are, type where
+in order see where you are, type where (this will only work if you are on a breakpoint)
 
 Now in the application, go to where that code executes.  When you hit that method, the debugger
 will halt you there and show something like 
