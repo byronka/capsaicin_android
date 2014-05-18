@@ -266,7 +266,7 @@ public class RecordVideoActivity extends Activity {
 
         // Step 3: Set a CamcorderProfile (requires API Level 8 or higher)
         Log.i(TAG, "setting a CamcorderProfile");
-        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_HIGH));
+        mMediaRecorder.setProfile(CamcorderProfile.get(CamcorderProfile.QUALITY_CIF));
 
         // Step 4: Set output file
         Log.i(TAG, "setting an output file...");
