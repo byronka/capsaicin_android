@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.MediaController;
@@ -74,6 +75,8 @@ public class VideoAdapter extends ArrayAdapter<VideoItem> {
                 }
             });
         }
+        final TextView caption = (TextView)myVideoItemView.findViewById(R.id.videocaption);
+        caption.setText(vi.getVideoUrl());
         final VideoView videoView = 
             (VideoView)myVideoItemView.findViewById(R.id.videoView);
         if (videoView != null) {
