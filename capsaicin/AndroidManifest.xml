@@ -42,6 +42,7 @@
 		<activity
 			android:theme="@style/Theme.AppCompat"
 			android:name=".RecordVideoActivity"
+			android:screenOrientation="landscape"
 			android:label="Record Video" >
 		</activity>
 	</application>
